@@ -1,0 +1,2 @@
+# meazi
+meazi digital lottery
