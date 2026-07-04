@@ -495,7 +495,7 @@
             transform: scale(0.95);
         }
 
-        /* ===== INPUT FIELDS - IMPROVED FOR MOBILE ===== */
+        /* ===== INPUT FIELD - NAME ONLY ===== */
         .input-group {
             display: flex;
             gap: 6px;
@@ -504,15 +504,15 @@
         }
 
         .input-group input {
-            padding: 12px 16px;
+            padding: 14px 18px;
             border-radius: 40px;
             border: 2px solid rgba(255, 255, 255, 0.08);
             background: rgba(0, 0, 0, 0.35);
             color: #fff;
-            font-size: 0.90rem;
+            font-size: 0.95rem;
             outline: none;
             transition: all 0.25s ease;
-            min-height: 48px;
+            min-height: 52px;
             width: 100%;
             -webkit-appearance: none;
             appearance: none;
@@ -521,47 +521,22 @@
 
         .input-group input::placeholder {
             color: rgba(255, 255, 255, 0.20);
-            font-size: 0.80rem;
+            font-size: 0.85rem;
         }
 
-        .input-group .name-input {
-            flex: 2;
-            min-width: 140px;
-        }
-
-        .input-group .phone-input {
-            flex: 1;
-            min-width: 120px;
-            direction: ltr;
-            font-family: 'Segoe UI', sans-serif;
-            letter-spacing: 0.5px;
-        }
-
-        /* Focus states - INTERACTIVE COLORS */
+        /* Focus states */
         .input-group input:focus {
-            border-color: #f9e05d;
-            box-shadow: 0 0 25px rgba(249, 224, 93, 0.12), inset 0 0 25px rgba(249, 224, 93, 0.05);
+            border-color: #4ade80;
+            box-shadow: 0 0 30px rgba(74, 222, 128, 0.12), inset 0 0 30px rgba(74, 222, 128, 0.05);
             background: rgba(0, 0, 0, 0.45);
             transform: scale(1.01);
         }
 
-        .input-group input:focus.name-input {
-            border-color: #4ade80;
-            box-shadow: 0 0 25px rgba(74, 222, 128, 0.12), inset 0 0 25px rgba(74, 222, 128, 0.05);
-        }
-
-        .input-group input:focus.phone-input {
-            border-color: #60a5fa;
-            box-shadow: 0 0 25px rgba(96, 165, 250, 0.12), inset 0 0 25px rgba(96, 165, 250, 0.05);
-        }
-
-        /* Valid state */
         .input-group input.valid {
             border-color: #4ade80 !important;
             box-shadow: 0 0 20px rgba(74, 222, 128, 0.08) !important;
         }
 
-        /* Invalid state */
         .input-group input.invalid {
             border-color: #f87171 !important;
             box-shadow: 0 0 20px rgba(248, 113, 113, 0.08) !important;
@@ -569,18 +544,12 @@
 
         @media (max-width: 500px) {
             .input-group input {
-                font-size: 0.85rem;
-                padding: 12px 14px;
-                min-height: 50px;
+                font-size: 0.90rem;
+                padding: 14px 16px;
+                min-height: 54px;
             }
             .input-group input::placeholder {
-                font-size: 0.75rem;
-            }
-            .input-group .name-input {
-                flex: 1 1 100%;
-            }
-            .input-group .phone-input {
-                flex: 1 1 100%;
+                font-size: 0.80rem;
             }
         }
 
@@ -865,38 +834,32 @@
             align-items: center;
             padding: 6px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 0.65rem;
+            font-size: 0.70rem;
         }
 
         .participant-item .p-name {
             font-weight: 500;
             flex: 1;
-            font-size: 0.70rem;
+            font-size: 0.75rem;
         }
 
         .participant-item .p-number {
             background: rgba(255, 215, 0, 0.10);
-            padding: 1px 8px;
-            border-radius: 12px;
+            padding: 2px 10px;
+            border-radius: 14px;
             font-weight: 700;
             color: #f9e05d;
-            font-size: 0.60rem;
+            font-size: 0.65rem;
             margin: 0 4px;
         }
 
         .participant-item .p-ticket {
             color: #60a5fa;
             font-weight: 600;
-            font-size: 0.55rem;
+            font-size: 0.60rem;
             background: rgba(96, 165, 250, 0.08);
-            padding: 1px 6px;
-            border-radius: 8px;
-        }
-
-        .participant-item .p-phone {
-            color: rgba(255, 255, 255, 0.25);
-            font-size: 0.50rem;
-            margin-left: 4px;
+            padding: 2px 8px;
+            border-radius: 10px;
         }
 
         .empty-msg {
@@ -1289,10 +1252,6 @@
             src: local('Abyssinica SIL'), local('Ethiopia Jiret'), local('Noto Sans Ethiopic');
         }
 
-        .amharic-input {
-            font-family: 'Ethiopic', 'Segoe UI', sans-serif;
-        }
-
         /* ===== RESPONSIVE FIXES ===== */
         @media (max-width: 500px) {
             .container {
@@ -1342,7 +1301,7 @@
                 font-size: 0.80rem;
             }
             .participant-item .p-name {
-                font-size: 0.65rem;
+                font-size: 0.70rem;
             }
             .admin-modal-content {
                 padding: 20px 16px;
@@ -1452,10 +1411,9 @@
                     <button class="copy-btn" onclick="copyTeleBirr()">📋 Copy</button>
                 </div>
 
-                <!-- ===== IMPROVED INPUT FIELDS - PHONE FIXED ===== -->
+                <!-- ===== NAME INPUT ONLY ===== -->
                 <div class="input-group">
-                    <input type="text" id="participantName" class="name-input" placeholder="ሙሉ ስም (Full Name)" style="font-family: 'Ethiopic', 'Segoe UI', sans-serif;" />
-                    <input type="tel" id="phoneNumber" class="phone-input" placeholder="ስልክ +251 9X XXX XXXX" maxlength="13" style="direction:ltr; font-family: 'Segoe UI', sans-serif;" />
+                    <input type="text" id="participantName" placeholder="ሙሉ ስም (Full Name)" style="font-family: 'Ethiopic', 'Segoe UI', sans-serif;" />
                 </div>
 
                 <button class="btn-primary" id="joinBtn" onclick="joinLottery()">✅ Buy Ticket(s)</button>
@@ -1603,96 +1561,6 @@
         const dot100 = document.getElementById('dot100');
         const dot200 = document.getElementById('dot200');
         const nameInput = document.getElementById('participantName');
-        const phoneInput = document.getElementById('phoneNumber');
-
-        // ============================================================
-        //  PHONE FORMATTING - FIXED FOR MOBILE
-        // ============================================================
-        // Store raw phone value separately
-        let rawPhoneValue = '';
-
-        // Format the phone number (only on blur)
-        function formatPhoneOnBlur() {
-            let val = phoneInput.value.replace(/\D/g, '');
-            // Remove leading zero if present
-            if (val.startsWith('0')) {
-                val = val.substring(1);
-            }
-            // Limit to 9 digits
-            if (val.length > 9) {
-                val = val.substring(0, 9);
-            }
-            rawPhoneValue = val;
-
-            // Format for display
-            let formatted = '';
-            if (val.length > 0) {
-                formatted = '+251';
-                if (val.length > 0) {
-                    formatted += ' ' + val.substring(0, 2);
-                }
-                if (val.length > 2) {
-                    formatted += ' ' + val.substring(2, 5);
-                }
-                if (val.length > 5) {
-                    formatted += ' ' + val.substring(5, 9);
-                }
-            }
-            phoneInput.value = formatted.trim();
-
-            // Validate
-            if (val.length === 9) {
-                phoneInput.classList.add('valid');
-                phoneInput.classList.remove('invalid');
-            } else if (val.length > 0) {
-                phoneInput.classList.add('invalid');
-                phoneInput.classList.remove('valid');
-            } else {
-                phoneInput.classList.remove('valid', 'invalid');
-            }
-        }
-
-        // On input - only remove non-digits, don't auto-format
-        function handlePhoneInput() {
-            let val = phoneInput.value.replace(/\D/g, '');
-            if (val.startsWith('0')) {
-                val = val.substring(1);
-            }
-            if (val.length > 9) {
-                val = val.substring(0, 9);
-            }
-            rawPhoneValue = val;
-
-            // Show raw digits while typing (don't format)
-            phoneInput.value = val;
-
-            // Validate in real-time
-            if (val.length === 9) {
-                phoneInput.classList.add('valid');
-                phoneInput.classList.remove('invalid');
-            } else if (val.length > 0) {
-                phoneInput.classList.add('invalid');
-                phoneInput.classList.remove('valid');
-            } else {
-                phoneInput.classList.remove('valid', 'invalid');
-            }
-        }
-
-        // On focus - show raw digits
-        function handlePhoneFocus() {
-            phoneInput.value = rawPhoneValue;
-            phoneInput.setSelectionRange(rawPhoneValue.length, rawPhoneValue.length);
-        }
-
-        // Get raw phone number
-        function getRawPhone(phone) {
-            return phone.replace(/\D/g, '');
-        }
-
-        function validatePhone(phone) {
-            const raw = getRawPhone(phone);
-            return raw.length === 9;
-        }
 
         // ============================================================
         //  INIT
@@ -1704,11 +1572,6 @@
             updateTotalPrice();
             updateStatusDots();
             drawStatusText.textContent = '🎰 Ready';
-
-            // Phone input event listeners
-            phoneInput.addEventListener('input', handlePhoneInput);
-            phoneInput.addEventListener('blur', formatPhoneOnBlur);
-            phoneInput.addEventListener('focus', handlePhoneFocus);
         }
 
         // ============================================================
@@ -1892,7 +1755,6 @@
             }
 
             const name = nameInput.value.trim();
-            const phone = phoneInput.value.trim();
             const ticketCount = parseInt(ticketCountInput.value) || 1;
 
             if (!name) {
@@ -1900,20 +1762,6 @@
                 nameInput.focus();
                 nameInput.style.borderColor = '#f87171';
                 setTimeout(() => { nameInput.style.borderColor = ''; }, 2000);
-                return;
-            }
-            if (!phone) {
-                showToast('❌ Please enter your phone number.', 'error');
-                phoneInput.focus();
-                phoneInput.style.borderColor = '#f87171';
-                setTimeout(() => { phoneInput.style.borderColor = ''; }, 2000);
-                return;
-            }
-            if (!validatePhone(phone)) {
-                showToast('❌ Phone must be 9 digits after +251 (e.g., 912345678).', 'error');
-                phoneInput.focus();
-                phoneInput.style.borderColor = '#f87171';
-                setTimeout(() => { phoneInput.style.borderColor = ''; }, 2000);
                 return;
             }
 
@@ -1940,8 +1788,8 @@
                 }
             }
 
-            const rawPhone = getRawPhone(phone);
-            const existing = gameData.participants.find(p => p.phone === rawPhone);
+            // Check if name already exists in this game
+            const existing = gameData.participants.find(p => p.name.toLowerCase() === name.toLowerCase());
             if (existing) {
                 existing.numbers.push(...selected);
                 existing.tickets += ticketCount;
@@ -1949,7 +1797,6 @@
             } else {
                 gameData.participants.push({
                     name: name,
-                    phone: rawPhone,
                     numbers: [...selected],
                     tickets: ticketCount,
                 });
@@ -1958,10 +1805,7 @@
 
             gameData.selectedNumbers = [];
             nameInput.value = '';
-            phoneInput.value = '';
-            rawPhoneValue = '';
             nameInput.classList.remove('valid', 'invalid');
-            phoneInput.classList.remove('valid', 'invalid');
 
             updateUI();
             saveToStorage();
@@ -2069,8 +1913,8 @@
 
             // Save winners
             gameData.winners = [
-                { name: winner1.name, phone: winner1.phone, number: num1, prize: prize1, place: 1 },
-                { name: winner2.name, phone: winner2.phone, number: num2, prize: prize2, place: 2 },
+                { name: winner1.name, number: num1, prize: prize1, place: 1 },
+                { name: winner2.name, number: num2, prize: prize2, place: 2 },
             ];
             gameData.isDrawn = true;
 
@@ -2159,12 +2003,12 @@
             winnerContent.innerHTML = `
                     <div style="margin-bottom:6px;">
                         <div class="big">#${w[0].number}</div>
-                        <div class="sub">🥇 ${w[0].name} (+251${w[0].phone})</div>
+                        <div class="sub">🥇 ${w[0].name}</div>
                         <div class="prize-amount">${w[0].prize.toFixed(2)} ETB</div>
                     </div>
                     <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:6px;">
                         <div class="big silver">#${w[1].number}</div>
-                        <div class="sub">🥈 ${w[1].name} (+251${w[1].phone})</div>
+                        <div class="sub">🥈 ${w[1].name}</div>
                         <div class="prize-amount">${w[1].prize.toFixed(2)} ETB</div>
                     </div>
                 `;
@@ -2280,7 +2124,6 @@
                 listEl.innerHTML = gameData.participants.map((p, idx) => `
                         <div class="participant-item">
                             <span class="p-name">${idx+1}. ${p.name}</span>
-                            <span class="p-phone">+251${p.phone}</span>
                             <span class="p-ticket">${p.tickets} 🎫</span>
                             <span class="p-number">${p.numbers.join(', ')}</span>
                         </div>
