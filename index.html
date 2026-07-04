@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
     <title>Meazi Digital Lottery</title>
     <style>
         /* ===== RESET & BASE ===== */
@@ -67,18 +67,19 @@
         }
 
         .game-tab {
-            padding: 8px 16px;
+            padding: 10px 18px;
             border-radius: 40px;
             border: 2px solid rgba(255, 255, 255, 0.10);
             background: rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.50);
             font-weight: 700;
-            font-size: 0.80rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 5px;
+            min-height: 44px;
         }
 
         .game-tab:hover {
@@ -94,9 +95,9 @@
         }
 
         .game-tab .badge {
-            font-size: 0.55rem;
+            font-size: 0.60rem;
             background: rgba(255, 255, 255, 0.06);
-            padding: 1px 8px;
+            padding: 2px 10px;
             border-radius: 16px;
             margin-left: 2px;
         }
@@ -107,8 +108,8 @@
         }
 
         .game-tab .status-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             display: inline-block;
         }
@@ -222,13 +223,16 @@
             text-align: center;
             background: rgba(255, 255, 255, 0.04);
             color: rgba(255, 255, 255, 0.60);
+            min-height: 32px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         @media (max-width: 500px) {
             .num-btn {
-                font-size: 0.65rem;
-                padding: 5px 0;
+                font-size: 0.70rem;
+                padding: 6px 0;
                 border-radius: 4px;
+                min-height: 34px;
             }
         }
 
@@ -243,6 +247,10 @@
             color: #fff;
             transform: scale(1.04);
         }
+        .num-btn.zone-1:active {
+            transform: scale(0.95);
+            background: rgba(239, 68, 68, 0.30);
+        }
 
         .num-btn.zone-2 {
             background: rgba(251, 146, 60, 0.12);
@@ -254,6 +262,10 @@
             border-color: rgba(251, 146, 60, 0.35);
             color: #fff;
             transform: scale(1.04);
+        }
+        .num-btn.zone-2:active {
+            transform: scale(0.95);
+            background: rgba(251, 146, 60, 0.30);
         }
 
         .num-btn.zone-3 {
@@ -267,6 +279,10 @@
             color: #fff;
             transform: scale(1.04);
         }
+        .num-btn.zone-3:active {
+            transform: scale(0.95);
+            background: rgba(250, 204, 21, 0.28);
+        }
 
         .num-btn.zone-4 {
             background: rgba(74, 222, 128, 0.10);
@@ -278,6 +294,10 @@
             border-color: rgba(74, 222, 128, 0.30);
             color: #fff;
             transform: scale(1.04);
+        }
+        .num-btn.zone-4:active {
+            transform: scale(0.95);
+            background: rgba(74, 222, 128, 0.28);
         }
 
         .num-btn.selected {
@@ -374,60 +394,68 @@
         .ticket-counter {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(0, 0, 0, 0.20);
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.25);
             border-radius: 40px;
-            padding: 3px 3px 3px 10px;
+            padding: 4px 4px 4px 14px;
             margin: 6px 0 8px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .ticket-counter label {
             color: rgba(255, 255, 255, 0.50);
-            font-size: 0.65rem;
+            font-size: 0.70rem;
             font-weight: 500;
         }
 
         .ticket-counter input {
-            width: 40px;
-            padding: 5px 3px;
+            width: 50px;
+            padding: 8px 4px;
             border-radius: 30px;
             border: 1px solid rgba(255, 255, 255, 0.10);
             background: rgba(0, 0, 0, 0.30);
             color: #fff;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-align: center;
             outline: none;
+            min-height: 40px;
+            -webkit-appearance: none;
+            appearance: none;
         }
 
         .ticket-counter input:focus {
             border-color: #f9e05d;
+            box-shadow: 0 0 20px rgba(249, 224, 93, 0.15);
+        }
+
+        .ticket-counter input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
         }
 
         .ticket-counter .ticket-price {
             color: #4ade80;
             font-weight: 700;
-            font-size: 0.70rem;
+            font-size: 0.75rem;
             margin-left: auto;
-            padding-right: 8px;
+            padding-right: 10px;
         }
 
         /* ===== TELEBIRR INFO ===== */
         .telebirr-info {
             background: rgba(0, 200, 150, 0.06);
             border: 1px solid rgba(0, 200, 150, 0.12);
-            border-radius: 10px;
-            padding: 6px 10px;
+            border-radius: 12px;
+            padding: 8px 12px;
             margin: 6px 0 8px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .telebirr-info .icon {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
         }
 
         .telebirr-info .details {
@@ -435,7 +463,7 @@
         }
 
         .telebirr-info .details .number {
-            font-size: 0.90rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: #4ade80;
             letter-spacing: 1px;
@@ -450,31 +478,128 @@
             background: rgba(255, 255, 255, 0.06);
             border: none;
             color: #fff;
-            padding: 3px 10px;
-            border-radius: 6px;
+            padding: 6px 14px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.60rem;
+            font-size: 0.65rem;
             transition: 0.15s ease;
+            min-height: 34px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .copy-btn:hover {
             background: rgba(255, 255, 255, 0.12);
+        }
+        .copy-btn:active {
+            background: rgba(255, 255, 255, 0.20);
+            transform: scale(0.95);
+        }
+
+        /* ===== INPUT FIELDS - IMPROVED FOR MOBILE ===== */
+        .input-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 6px 0 4px;
+        }
+
+        .input-group input {
+            padding: 12px 16px;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            font-size: 0.90rem;
+            outline: none;
+            transition: all 0.25s ease;
+            min-height: 48px;
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            font-family: 'Ethiopic', 'Segoe UI', sans-serif;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.20);
+            font-size: 0.80rem;
+        }
+
+        .input-group .name-input {
+            flex: 2;
+            min-width: 140px;
+        }
+
+        .input-group .phone-input {
+            flex: 1;
+            min-width: 120px;
+            direction: ltr;
+            font-family: 'Segoe UI', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* Focus states - INTERACTIVE COLORS */
+        .input-group input:focus {
+            border-color: #f9e05d;
+            box-shadow: 0 0 25px rgba(249, 224, 93, 0.12), inset 0 0 25px rgba(249, 224, 93, 0.05);
+            background: rgba(0, 0, 0, 0.45);
+            transform: scale(1.01);
+        }
+
+        .input-group input:focus.name-input {
+            border-color: #4ade80;
+            box-shadow: 0 0 25px rgba(74, 222, 128, 0.12), inset 0 0 25px rgba(74, 222, 128, 0.05);
+        }
+
+        .input-group input:focus.phone-input {
+            border-color: #60a5fa;
+            box-shadow: 0 0 25px rgba(96, 165, 250, 0.12), inset 0 0 25px rgba(96, 165, 250, 0.05);
+        }
+
+        /* Valid state */
+        .input-group input.valid {
+            border-color: #4ade80 !important;
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.08) !important;
+        }
+
+        /* Invalid state */
+        .input-group input.invalid {
+            border-color: #f87171 !important;
+            box-shadow: 0 0 20px rgba(248, 113, 113, 0.08) !important;
+        }
+
+        @media (max-width: 500px) {
+            .input-group input {
+                font-size: 0.85rem;
+                padding: 12px 14px;
+                min-height: 50px;
+            }
+            .input-group input::placeholder {
+                font-size: 0.75rem;
+            }
+            .input-group .name-input {
+                flex: 1 1 100%;
+            }
+            .input-group .phone-input {
+                flex: 1 1 100%;
+            }
         }
 
         /* ===== BUTTONS ===== */
         .btn-primary {
             background: linear-gradient(135deg, #f9e05d, #f5a623);
             border: none;
-            padding: 10px 16px;
+            padding: 14px 20px;
             border-radius: 40px;
-            font-size: 0.80rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: #0b0e1a;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 4px 0 #b27a1a, 0 8px 20px rgba(245, 166, 35, 0.20);
             width: 100%;
-            margin-top: 4px;
+            margin-top: 6px;
+            min-height: 50px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-primary:hover {
@@ -496,15 +621,17 @@
         .btn-secondary {
             background: rgba(255, 255, 255, 0.06);
             border: 2px solid rgba(255, 255, 255, 0.08);
-            padding: 7px 12px;
+            padding: 10px 14px;
             border-radius: 40px;
-            font-size: 0.70rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #fff;
             cursor: pointer;
             transition: 0.15s ease;
             width: 100%;
-            margin-top: 3px;
+            margin-top: 4px;
+            min-height: 40px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-secondary:hover {
@@ -512,22 +639,34 @@
             border-color: rgba(255, 255, 255, 0.18);
         }
 
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(0.97);
+        }
+
         .btn-danger {
             background: rgba(239, 68, 68, 0.12);
             border: 2px solid rgba(239, 68, 68, 0.15);
-            padding: 7px 12px;
+            padding: 10px 14px;
             border-radius: 40px;
-            font-size: 0.70rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: #f87171;
             cursor: pointer;
             transition: 0.15s ease;
             width: 100%;
-            margin-top: 3px;
+            margin-top: 4px;
+            min-height: 40px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .btn-danger:hover {
             background: rgba(239, 68, 68, 0.22);
+        }
+
+        .btn-danger:active {
+            background: rgba(239, 68, 68, 0.30);
+            transform: scale(0.97);
         }
 
         /* ===== DRAW BUTTONS ===== */
@@ -540,14 +679,16 @@
 
         .draw-btn {
             flex: 1;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-radius: 40px;
             font-weight: 700;
-            font-size: 0.70rem;
+            font-size: 0.75rem;
             cursor: pointer;
             transition: all 0.2s ease;
             border: none;
             min-width: 70px;
+            min-height: 44px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .draw-btn.draw-100 {
@@ -564,6 +705,10 @@
 
         .draw-btn:hover {
             transform: translateY(-2px);
+        }
+
+        .draw-btn:active {
+            transform: translateY(2px);
         }
 
         .draw-btn:disabled {
@@ -592,6 +737,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
         .admin-modal.show {
@@ -602,20 +748,20 @@
             background: #1a1f33;
             border: 1px solid rgba(255, 215, 0, 0.20);
             border-radius: 28px;
-            padding: 24px 20px;
-            max-width: 340px;
+            padding: 28px 24px;
+            max-width: 360px;
             width: 100%;
             text-align: center;
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.80);
         }
 
         .admin-modal-content h2 {
-            font-size: 1.1rem;
-            margin-bottom: 3px;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
         }
 
         .admin-modal-content .game-label {
-            font-size: 0.75rem;
+            font-size: 0.80rem;
             color: #4ade80;
             font-weight: 600;
             margin-bottom: 8px;
@@ -623,42 +769,46 @@
 
         .admin-modal-content p {
             color: rgba(255, 255, 255, 0.35);
-            font-size: 0.70rem;
-            margin-bottom: 10px;
+            font-size: 0.75rem;
+            margin-bottom: 12px;
         }
 
         .admin-modal-content input {
             width: 100%;
-            padding: 10px 14px;
+            padding: 14px 16px;
             border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            border: 2px solid rgba(255, 255, 255, 0.10);
             background: rgba(0, 0, 0, 0.30);
             color: #fff;
-            font-size: 0.80rem;
+            font-size: 0.90rem;
             outline: none;
             text-align: center;
             letter-spacing: 4px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            min-height: 50px;
         }
 
         .admin-modal-content input:focus {
             border-color: #f9e05d;
+            box-shadow: 0 0 25px rgba(249, 224, 93, 0.10);
         }
 
         .admin-modal-content .btn-group {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .admin-modal-content .btn-group button {
             flex: 1;
-            padding: 10px;
+            padding: 14px;
             border-radius: 40px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.15s ease;
             border: none;
-            font-size: 0.80rem;
+            font-size: 0.85rem;
+            min-height: 48px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .admin-modal-content .btn-confirm {
@@ -671,6 +821,10 @@
             transform: translateY(-2px);
         }
 
+        .admin-modal-content .btn-confirm:active {
+            transform: translateY(2px);
+        }
+
         .admin-modal-content .btn-cancel {
             background: rgba(255, 255, 255, 0.06);
             color: #fff;
@@ -681,6 +835,11 @@
             background: rgba(255, 255, 255, 0.12);
         }
 
+        .admin-modal-content .btn-cancel:active {
+            background: rgba(255, 255, 255, 0.20);
+            transform: scale(0.97);
+        }
+
         /* ===== PARTICIPANTS LIST ===== */
         .participant-list {
             max-height: 180px;
@@ -688,11 +847,11 @@
             margin-top: 6px;
             border-radius: 10px;
             background: rgba(0, 0, 0, 0.20);
-            padding: 3px;
+            padding: 4px;
         }
 
         .participant-list::-webkit-scrollbar {
-            width: 3px;
+            width: 4px;
         }
 
         .participant-list::-webkit-scrollbar-thumb {
@@ -704,7 +863,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 8px;
+            padding: 6px 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             font-size: 0.65rem;
         }
@@ -717,12 +876,12 @@
 
         .participant-item .p-number {
             background: rgba(255, 215, 0, 0.10);
-            padding: 1px 6px;
+            padding: 1px 8px;
             border-radius: 12px;
             font-weight: 700;
             color: #f9e05d;
             font-size: 0.60rem;
-            margin: 0 3px;
+            margin: 0 4px;
         }
 
         .participant-item .p-ticket {
@@ -730,14 +889,14 @@
             font-weight: 600;
             font-size: 0.55rem;
             background: rgba(96, 165, 250, 0.08);
-            padding: 1px 5px;
+            padding: 1px 6px;
             border-radius: 8px;
         }
 
         .participant-item .p-phone {
             color: rgba(255, 255, 255, 0.25);
             font-size: 0.50rem;
-            margin-left: 3px;
+            margin-left: 4px;
         }
 
         .empty-msg {
@@ -1080,17 +1239,17 @@
         /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: 15px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
-            padding: 8px 16px;
+            padding: 12px 20px;
             border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             color: #fff;
             font-weight: 500;
-            font-size: 0.70rem;
+            font-size: 0.75rem;
             display: none;
             z-index: 999;
             text-align: center;
@@ -1134,23 +1293,10 @@
             font-family: 'Ethiopic', 'Segoe UI', sans-serif;
         }
 
-        input::placeholder {
-            color: rgba(255, 255, 255, 0.20);
-        }
-
-        /* ===== MOBILE INPUTS ===== */
-        input[type="text"] {
-            font-size: 0.75rem;
-            padding: 8px 12px;
-        }
-
+        /* ===== RESPONSIVE FIXES ===== */
         @media (max-width: 500px) {
-            input[type="text"] {
-                font-size: 0.70rem;
-                padding: 6px 10px;
-            }
             .container {
-                padding: 12px 10px;
+                padding: 14px 10px;
                 border-radius: 20px;
             }
             .header h1 {
@@ -1158,6 +1304,67 @@
             }
             .header p {
                 font-size: 0.60rem;
+            }
+            .status-bar {
+                padding: 6px 8px;
+            }
+            .status-item .value {
+                font-size: 0.75rem;
+            }
+            .status-item .label {
+                font-size: 0.40rem;
+            }
+            .game-tab {
+                font-size: 0.75rem;
+                padding: 8px 14px;
+                min-height: 38px;
+            }
+            .draw-btn {
+                font-size: 0.65rem;
+                padding: 8px 10px;
+                min-height: 38px;
+            }
+            .btn-primary {
+                font-size: 0.80rem;
+                padding: 12px 16px;
+                min-height: 44px;
+            }
+            .btn-secondary,
+            .btn-danger {
+                font-size: 0.65rem;
+                padding: 8px 12px;
+                min-height: 36px;
+            }
+            .telebirr-info .details .number {
+                font-size: 0.85rem;
+            }
+            .section-title {
+                font-size: 0.80rem;
+            }
+            .participant-item .p-name {
+                font-size: 0.65rem;
+            }
+            .admin-modal-content {
+                padding: 20px 16px;
+            }
+            .admin-modal-content input {
+                font-size: 0.80rem;
+                padding: 12px 14px;
+                min-height: 44px;
+            }
+            .admin-modal-content .btn-group button {
+                font-size: 0.75rem;
+                padding: 12px;
+                min-height: 42px;
+            }
+        }
+
+        /* ===== PREVENT ZOOM ON INPUT FOCUS ===== */
+        @media screen and (max-width: 500px) {
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
             }
         }
     </style>
@@ -1245,9 +1452,10 @@
                     <button class="copy-btn" onclick="copyTeleBirr()">📋 Copy</button>
                 </div>
 
-                <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                    <input type="text" id="participantName" placeholder="ሙሉ ስም (Full Name)" style="flex:2; padding:8px 12px; border-radius:40px; border:1px solid rgba(255,255,255,0.08); background:rgba(0,0,0,0.30); color:#fff; font-size:0.75rem; outline:none; font-family: 'Ethiopic', 'Segoe UI', sans-serif;" />
-                    <input type="text" id="phoneNumber" placeholder="ስልክ +251 9X XXX XXXX" maxlength="13" style="flex:1; padding:8px 12px; border-radius:40px; border:1px solid rgba(255,255,255,0.08); background:rgba(0,0,0,0.30); color:#fff; font-size:0.75rem; outline:none; direction:ltr; font-family: 'Ethiopic', 'Segoe UI', sans-serif;" oninput="formatPhone(this)" />
+                <!-- ===== IMPROVED INPUT FIELDS - PHONE FIXED ===== -->
+                <div class="input-group">
+                    <input type="text" id="participantName" class="name-input" placeholder="ሙሉ ስም (Full Name)" style="font-family: 'Ethiopic', 'Segoe UI', sans-serif;" />
+                    <input type="tel" id="phoneNumber" class="phone-input" placeholder="ስልክ +251 9X XXX XXXX" maxlength="13" style="direction:ltr; font-family: 'Segoe UI', sans-serif;" />
                 </div>
 
                 <button class="btn-primary" id="joinBtn" onclick="joinLottery()">✅ Buy Ticket(s)</button>
@@ -1327,12 +1535,12 @@
 
     <script>
         // ============================================================
-        //  CONFIGURATION - CORRECTED PERCENTAGES
+        //  CONFIGURATION
         // ============================================================
         const TOTAL_NUMBERS = 80;
-        const ADMIN_RATE = 0.20; // 20% to admin
-        const WINNER1_RATE = 0.60; // 60% to 1st place
-        const WINNER2_RATE = 0.20; // 20% to 2nd place
+        const ADMIN_RATE = 0.20;
+        const WINNER1_RATE = 0.60;
+        const WINNER2_RATE = 0.20;
         const TELEBIRR_NUMBER = '0945223257';
         const ADMIN_PASSWORD = 'meazi2024';
 
@@ -1394,30 +1602,29 @@
         const badge200 = document.getElementById('badge200');
         const dot100 = document.getElementById('dot100');
         const dot200 = document.getElementById('dot200');
+        const nameInput = document.getElementById('participantName');
+        const phoneInput = document.getElementById('phoneNumber');
 
         // ============================================================
-        //  INIT
+        //  PHONE FORMATTING - FIXED FOR MOBILE
         // ============================================================
-        function init() {
-            renderGrid();
-            updateUI();
-            loadFromStorage();
-            updateTotalPrice();
-            updateStatusDots();
-            drawStatusText.textContent = '🎰 Ready';
-        }
+        // Store raw phone value separately
+        let rawPhoneValue = '';
 
-        // ============================================================
-        //  PHONE FORMATTING (Ethiopian +251)
-        // ============================================================
-        function formatPhone(input) {
-            let val = input.value.replace(/\D/g, '');
+        // Format the phone number (only on blur)
+        function formatPhoneOnBlur() {
+            let val = phoneInput.value.replace(/\D/g, '');
+            // Remove leading zero if present
             if (val.startsWith('0')) {
                 val = val.substring(1);
             }
+            // Limit to 9 digits
             if (val.length > 9) {
                 val = val.substring(0, 9);
             }
+            rawPhoneValue = val;
+
+            // Format for display
             let formatted = '';
             if (val.length > 0) {
                 formatted = '+251';
@@ -1431,9 +1638,53 @@
                     formatted += ' ' + val.substring(5, 9);
                 }
             }
-            input.value = formatted.trim();
+            phoneInput.value = formatted.trim();
+
+            // Validate
+            if (val.length === 9) {
+                phoneInput.classList.add('valid');
+                phoneInput.classList.remove('invalid');
+            } else if (val.length > 0) {
+                phoneInput.classList.add('invalid');
+                phoneInput.classList.remove('valid');
+            } else {
+                phoneInput.classList.remove('valid', 'invalid');
+            }
         }
 
+        // On input - only remove non-digits, don't auto-format
+        function handlePhoneInput() {
+            let val = phoneInput.value.replace(/\D/g, '');
+            if (val.startsWith('0')) {
+                val = val.substring(1);
+            }
+            if (val.length > 9) {
+                val = val.substring(0, 9);
+            }
+            rawPhoneValue = val;
+
+            // Show raw digits while typing (don't format)
+            phoneInput.value = val;
+
+            // Validate in real-time
+            if (val.length === 9) {
+                phoneInput.classList.add('valid');
+                phoneInput.classList.remove('invalid');
+            } else if (val.length > 0) {
+                phoneInput.classList.add('invalid');
+                phoneInput.classList.remove('valid');
+            } else {
+                phoneInput.classList.remove('valid', 'invalid');
+            }
+        }
+
+        // On focus - show raw digits
+        function handlePhoneFocus() {
+            phoneInput.value = rawPhoneValue;
+            phoneInput.setSelectionRange(rawPhoneValue.length, rawPhoneValue.length);
+        }
+
+        // Get raw phone number
         function getRawPhone(phone) {
             return phone.replace(/\D/g, '');
         }
@@ -1441,6 +1692,23 @@
         function validatePhone(phone) {
             const raw = getRawPhone(phone);
             return raw.length === 9;
+        }
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        function init() {
+            renderGrid();
+            updateUI();
+            loadFromStorage();
+            updateTotalPrice();
+            updateStatusDots();
+            drawStatusText.textContent = '🎰 Ready';
+
+            // Phone input event listeners
+            phoneInput.addEventListener('input', handlePhoneInput);
+            phoneInput.addEventListener('blur', formatPhoneOnBlur);
+            phoneInput.addEventListener('focus', handlePhoneFocus);
         }
 
         // ============================================================
@@ -1498,6 +1766,7 @@
                 btn.dataset.number = i;
                 btn.textContent = i;
                 btn.onclick = () => selectNumber(i);
+                btn.ontouchstart = () => { /* prevent double tap zoom */ };
                 gridEl.appendChild(btn);
             }
             updateGrid();
@@ -1622,20 +1891,29 @@
                 return;
             }
 
-            const name = document.getElementById('participantName').value.trim();
-            const phone = document.getElementById('phoneNumber').value.trim();
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
             const ticketCount = parseInt(ticketCountInput.value) || 1;
 
             if (!name) {
                 showToast('❌ Please enter your full name.', 'error');
+                nameInput.focus();
+                nameInput.style.borderColor = '#f87171';
+                setTimeout(() => { nameInput.style.borderColor = ''; }, 2000);
                 return;
             }
             if (!phone) {
                 showToast('❌ Please enter your phone number.', 'error');
+                phoneInput.focus();
+                phoneInput.style.borderColor = '#f87171';
+                setTimeout(() => { phoneInput.style.borderColor = ''; }, 2000);
                 return;
             }
             if (!validatePhone(phone)) {
-                showToast('❌ Phone must be 9 digits after +251 (e.g., +251 91 234 5678).', 'error');
+                showToast('❌ Phone must be 9 digits after +251 (e.g., 912345678).', 'error');
+                phoneInput.focus();
+                phoneInput.style.borderColor = '#f87171';
+                setTimeout(() => { phoneInput.style.borderColor = ''; }, 2000);
                 return;
             }
 
@@ -1679,8 +1957,11 @@
             }
 
             gameData.selectedNumbers = [];
-            document.getElementById('participantName').value = '';
-            document.getElementById('phoneNumber').value = '';
+            nameInput.value = '';
+            phoneInput.value = '';
+            rawPhoneValue = '';
+            nameInput.classList.remove('valid', 'invalid');
+            phoneInput.classList.remove('valid', 'invalid');
 
             updateUI();
             saveToStorage();
@@ -1725,7 +2006,7 @@
         }
 
         // ============================================================
-        //  PERFORM DRAW - CORRECTED CALCULATION
+        //  PERFORM DRAW
         // ============================================================
         function performDraw(game) {
             if (isSpinning) return;
@@ -1747,9 +2028,9 @@
             const totalPool = totalTickets * game;
 
             // Apply percentages directly to total pool
-            const adminCut = totalPool * ADMIN_RATE; // 20% of total
-            const prize1 = totalPool * WINNER1_RATE; // 60% of total
-            const prize2 = totalPool * WINNER2_RATE; // 20% of total
+            const adminCut = totalPool * ADMIN_RATE;
+            const prize1 = totalPool * WINNER1_RATE;
+            const prize2 = totalPool * WINNER2_RATE;
 
             // Weighted random selection
             const weighted = [];
