@@ -204,7 +204,6 @@
             margin-bottom: 8px;
         }
 
-        /* Mobile: 8 columns */
         @media (max-width: 500px) {
             .number-grid {
                 grid-template-columns: repeat(8, 1fr);
@@ -1328,11 +1327,12 @@
 
     <script>
         // ============================================================
-        //  CONFIGURATION
+        //  CONFIGURATION - CORRECTED PERCENTAGES
         // ============================================================
         const TOTAL_NUMBERS = 80;
-        const ADMIN_COMMISSION_RATE = 0.20;
-        const WINNER_PRIZE_SPLIT = [0.50, 0.30];
+        const ADMIN_RATE = 0.20; // 20% to admin
+        const WINNER1_RATE = 0.60; // 60% to 1st place
+        const WINNER2_RATE = 0.20; // 20% to 2nd place
         const TELEBIRR_NUMBER = '0945223257';
         const ADMIN_PASSWORD = 'meazi2024';
 
@@ -1725,7 +1725,7 @@
         }
 
         // ============================================================
-        //  PERFORM DRAW - ENHANCED ANIMATION
+        //  PERFORM DRAW - CORRECTED CALCULATION
         // ============================================================
         function performDraw(game) {
             if (isSpinning) return;
@@ -1742,11 +1742,14 @@
             if (game === 100) drawBtn100.disabled = true;
             else drawBtn200.disabled = true;
 
-            // Calculate pools
+            // === CORRECT CALCULATION ===
             const totalTickets = participants.reduce((sum, p) => sum + p.tickets, 0);
             const totalPool = totalTickets * game;
-            const adminCut = totalPool * ADMIN_COMMISSION_RATE;
-            const prizePool = totalPool - adminCut;
+
+            // Apply percentages directly to total pool
+            const adminCut = totalPool * ADMIN_RATE; // 20% of total
+            const prize1 = totalPool * WINNER1_RATE; // 60% of total
+            const prize2 = totalPool * WINNER2_RATE; // 20% of total
 
             // Weighted random selection
             const weighted = [];
@@ -1782,9 +1785,6 @@
 
             const num1 = winner1.numbers[Math.floor(Math.random() * winner1.numbers.length)];
             const num2 = winner2.numbers[Math.floor(Math.random() * winner2.numbers.length)];
-
-            const prize1 = prizePool * WINNER_PRIZE_SPLIT[0];
-            const prize2 = prizePool * WINNER_PRIZE_SPLIT[1];
 
             // Save winners
             gameData.winners = [
@@ -1876,17 +1876,17 @@
 
             winnerDisplay.classList.add('show');
             winnerContent.innerHTML = `
-                <div style="margin-bottom:6px;">
-                    <div class="big">#${w[0].number}</div>
-                    <div class="sub">🥇 ${w[0].name} (+251${w[0].phone})</div>
-                    <div class="prize-amount">${w[0].prize.toFixed(2)} ETB</div>
-                </div>
-                <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:6px;">
-                    <div class="big silver">#${w[1].number}</div>
-                    <div class="sub">🥈 ${w[1].name} (+251${w[1].phone})</div>
-                    <div class="prize-amount">${w[1].prize.toFixed(2)} ETB</div>
-                </div>
-            `;
+                    <div style="margin-bottom:6px;">
+                        <div class="big">#${w[0].number}</div>
+                        <div class="sub">🥇 ${w[0].name} (+251${w[0].phone})</div>
+                        <div class="prize-amount">${w[0].prize.toFixed(2)} ETB</div>
+                    </div>
+                    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:6px;">
+                        <div class="big silver">#${w[1].number}</div>
+                        <div class="sub">🥈 ${w[1].name} (+251${w[1].phone})</div>
+                        <div class="prize-amount">${w[1].prize.toFixed(2)} ETB</div>
+                    </div>
+                `;
             drawStatusEl.textContent = '🏆 Drawn!';
             drawStatusEl.style.color = '#4ade80';
         }
@@ -1980,8 +1980,10 @@
             const gameData = games[currentGame];
             const totalTickets = gameData.participants.reduce((sum, p) => sum + p.tickets, 0);
             const totalPool = totalTickets * currentGame;
-            const adminCut = totalPool * ADMIN_COMMISSION_RATE;
-            const prizePool = totalPool - adminCut;
+            const adminCut = totalPool * ADMIN_RATE;
+            const prize1 = totalPool * WINNER1_RATE;
+            const prize2 = totalPool * WINNER2_RATE;
+            const prizePool = prize1 + prize2;
 
             countEl.textContent = totalTickets;
             countLabelEl.textContent = gameData.participants.length;
@@ -1995,13 +1997,13 @@
                 listEl.innerHTML = `<div class="empty-msg">No participants yet</div>`;
             } else {
                 listEl.innerHTML = gameData.participants.map((p, idx) => `
-                    <div class="participant-item">
-                        <span class="p-name">${idx+1}. ${p.name}</span>
-                        <span class="p-phone">+251${p.phone}</span>
-                        <span class="p-ticket">${p.tickets} 🎫</span>
-                        <span class="p-number">${p.numbers.join(', ')}</span>
-                    </div>
-                `).join('');
+                        <div class="participant-item">
+                            <span class="p-name">${idx+1}. ${p.name}</span>
+                            <span class="p-phone">+251${p.phone}</span>
+                            <span class="p-ticket">${p.tickets} 🎫</span>
+                            <span class="p-number">${p.numbers.join(', ')}</span>
+                        </div>
+                    `).join('');
             }
 
             joinBtn.disabled = gameData.isDrawn;
