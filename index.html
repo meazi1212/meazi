@@ -1,1147 +1,1090 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎰 Meazi Digital Lottery</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meazi Digital Lottery</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a1a, #1a1a3e, #0f3460);
+            background: linear-gradient(145deg, #0b0e1a 0%, #1a1f33 100%);
             min-height: 100vh;
-            padding: 15px;
+            padding: 20px;
             color: #fff;
         }
+
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 48px;
+            padding: 40px 35px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
         }
+
+        /* ===== HEADER ===== */
         .header {
             text-align: center;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 25px;
+            margin-bottom: 30px;
         }
+
         .header h1 {
-            font-size: 2em;
-            background: linear-gradient(45deg, #f7971e, #ffd200);
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f9e05d, #ffb347);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .header p { color: #aaa; font-size: 14px; }
-        
-        .admin-badge {
-            display: inline-block;
-            background: #ffd200;
-            color: #1a1a2e;
-            padding: 3px 12px;
+
+        .header p {
+            color: rgba(255, 255, 255, 0.50);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.30);
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 10px;
+            padding: 18px 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.08);
         }
-        
-        .payment-info {
-            background: rgba(255,215,0,0.1);
-            border: 1px solid #ffd200;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 10px 0;
+
+        .status-item {
             text-align: center;
+            flex: 1;
+            min-width: 80px;
         }
-        .payment-info h3 { color: #ffd200; margin-bottom: 8px; }
-        .payment-info .details {
+
+        .status-item .label {
+            font-size: 0.70rem;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 1px;
+        }
+
+        .status-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f9e05d;
+            margin-top: 2px;
+        }
+
+        .status-item .value.green {
+            color: #4ade80;
+        }
+
+        /* ===== TWO COLUMN LAYOUT ===== */
+        .two-col {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            max-width: 400px;
-            margin: 10px auto;
+            gap: 30px;
         }
-        .payment-info .detail-item {
-            background: rgba(255,255,255,0.05);
-            padding: 8px;
-            border-radius: 8px;
+
+        @media (max-width: 750px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
         }
-        .payment-info .detail-item .label { font-size: 10px; color: #888; }
-        .payment-info .detail-item .value { font-size: 16px; color: #ffd200; font-weight: bold; }
-        
-        .admin-section {
-            background: rgba(255,215,0,0.08);
-            border: 2px solid #ffd200;
-            border-radius: 12px;
-            padding: 15px;
-            margin: 10px 0;
-        }
-        .admin-section h3 { color: #ffd200; margin-bottom: 10px; }
-        .admin-section .row {
+
+        /* ===== NUMBER SELECTION ===== */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.80);
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
             align-items: center;
-            justify-content: center;
-        }
-        .admin-section .row .info-item {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .admin-section .row .info-item .label { font-size: 10px; color: #888; }
-        .admin-section .row .info-item .value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffd200;
-        }
-        .admin-section .row .info-item .value.green { color: #4CAF50; }
-        .admin-section .row .info-item .value.red { color: #f44336; }
-        .admin-section .row .info-item .value.cyan { color: #00BCD4; }
-        
-        .settings {
-            background: rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 12px;
-            margin: 10px 0;
-            display: flex;
-            flex-wrap: wrap;
             gap: 10px;
-            align-items: center;
-            justify-content: center;
         }
-        .settings label { font-weight: bold; color: #ffd200; font-size: 14px; }
-        .settings select, .settings input {
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255,255,255,0.15);
-            color: #fff;
-            font-size: 14px;
-        }
-        .settings select option { background: #1a1a2e; }
-        
-        .stats {
+
+        .number-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 8px;
-            margin: 10px 0;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+            margin-bottom: 18px;
         }
-        .stat-box {
-            background: rgba(255,255,255,0.08);
-            padding: 10px;
+
+        /* ===== COLORFUL NUMBER BUTTONS ===== */
+        .num-btn {
+            border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 10px;
-            text-align: center;
-        }
-        .stat-box .label { font-size: 10px; color: #888; text-transform: uppercase; }
-        .stat-box .value { font-size: 20px; font-weight: bold; color: #ffd200; margin-top: 3px; }
-        .stat-box .value.green { color: #4CAF50; }
-        .stat-box .value.red { color: #f44336; }
-        .stat-box .value.cyan { color: #00BCD4; }
-        
-        .user-info {
-            background: rgba(255,255,255,0.08);
-            padding: 10px 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .user-info .balance {
-            font-size: 18px;
-            color: #4CAF50;
-            font-weight: bold;
-        }
-        .user-info .balance span { color: #ffd200; }
-        .player-name-input {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        .player-name-input input {
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: none;
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            width: 150px;
-        }
-        .player-name-input button {
-            padding: 6px 15px;
-            border: none;
-            border-radius: 8px;
-            background: #ffd200;
-            color: #1a1a2e;
-            font-weight: bold;
+            padding: 10px 0;
+            font-size: 0.95rem;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.60);
+            position: relative;
         }
-        
+
+        /* Color zones */
+        .num-btn.zone-1 {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.20);
+            color: #fca5a5;
+        }
+        .num-btn.zone-1:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: rgba(239, 68, 68, 0.40);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .num-btn.zone-2 {
+            background: rgba(251, 146, 60, 0.15);
+            border-color: rgba(251, 146, 60, 0.20);
+            color: #fdba74;
+        }
+        .num-btn.zone-2:hover {
+            background: rgba(251, 146, 60, 0.25);
+            border-color: rgba(251, 146, 60, 0.40);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .num-btn.zone-3 {
+            background: rgba(250, 204, 21, 0.12);
+            border-color: rgba(250, 204, 21, 0.18);
+            color: #fde047;
+        }
+        .num-btn.zone-3:hover {
+            background: rgba(250, 204, 21, 0.22);
+            border-color: rgba(250, 204, 21, 0.35);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        .num-btn.zone-4 {
+            background: rgba(74, 222, 128, 0.12);
+            border-color: rgba(74, 222, 128, 0.18);
+            color: #86efac;
+        }
+        .num-btn.zone-4:hover {
+            background: rgba(74, 222, 128, 0.22);
+            border-color: rgba(74, 222, 128, 0.35);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Selected state */
+        .num-btn.selected {
+            transform: scale(1.10);
+            box-shadow: 0 0 25px rgba(249, 224, 93, 0.30);
+            border-color: #f9e05d !important;
+            color: #f9e05d !important;
+            background: rgba(249, 224, 93, 0.20) !important;
+        }
+
+        /* Taken state */
+        .num-btn.taken {
+            opacity: 0.25;
+            cursor: not-allowed;
+            pointer-events: none;
+            text-decoration: line-through;
+            filter: grayscale(0.8);
+        }
+
+        /* Winner state */
+        .num-btn.winner {
+            animation: pulse-gold 1s ease infinite;
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.35);
+            border-color: #4ade80 !important;
+            color: #4ade80 !important;
+            background: rgba(74, 222, 128, 0.20) !important;
+            transform: scale(1.12);
+        }
+
+        @keyframes pulse-gold {
+            0%,
+            100% {
+                transform: scale(1.12);
+            }
+            50% {
+                transform: scale(1.18);
+            }
+        }
+
+        /* ===== LEGEND ===== */
         .legend {
             display: flex;
+            gap: 15px;
             flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin: 10px 0;
+            margin-bottom: 14px;
+            padding: 10px 14px;
+            background: rgba(0, 0, 0, 0.20);
+            border-radius: 14px;
         }
+
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 11px;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.50);
         }
-        .legend-color {
+
+        .legend-dot {
             width: 14px;
             height: 14px;
             border-radius: 4px;
         }
-        .legend-color.available { background: #4CAF50; }
-        .legend-color.taken { background: #f44336; }
-        .legend-color.yours { background: #ffd200; }
-        .legend-color.commissioner { background: #9C27B0; }
-        .legend-color.admin { background: #00BCD4; }
-        .legend-color.winner { background: #ffab00; }
-        
-        .number-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
-            gap: 6px;
-            margin: 15px 0;
-            max-height: 450px;
-            overflow-y: auto;
-            padding: 5px;
+        .legend-dot.r {
+            background: rgba(239, 68, 68, 0.60);
         }
-        .number-cell {
-            aspect-ratio: 1;
+        .legend-dot.o {
+            background: rgba(251, 146, 60, 0.60);
+        }
+        .legend-dot.g {
+            background: rgba(250, 204, 21, 0.60);
+        }
+        .legend-dot.gn {
+            background: rgba(74, 222, 128, 0.60);
+        }
+
+        /* ===== PAYMENT SECTION ===== */
+        .payment-options {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            background: rgba(255,255,255,0.06);
-            color: #666;
-            user-select: none;
-            position: relative;
-            min-height: 55px;
-        }
-        .number-cell .owner-name {
-            font-size: 8px;
-            opacity: 0.8;
-            margin-top: 2px;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .number-cell.available {
-            background: linear-gradient(135deg, #2e7d32, #4CAF50);
-            color: white;
-        }
-        .number-cell.available:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 25px rgba(76, 175, 80, 0.5);
-        }
-        .number-cell.taken {
-            background: linear-gradient(135deg, #c62828, #f44336);
-            color: white;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        .number-cell.yours {
-            background: linear-gradient(135deg, #f9a825, #ffd200);
-            color: #1a1a2e;
-            border-color: #ffd200;
-            box-shadow: 0 0 20px rgba(255, 210, 0, 0.4);
-            animation: glow 1.5s infinite;
-        }
-        .number-cell.commissioner {
-            background: linear-gradient(135deg, #6a1b9a, #9C27B0);
-            color: white;
-            border-color: #9C27B0;
-            animation: pulse 1.5s infinite;
-        }
-        .number-cell.admin-owned {
-            background: linear-gradient(135deg, #00838f, #00BCD4);
-            color: white;
-            border-color: #00BCD4;
-        }
-        .number-cell.winner {
-            background: linear-gradient(135deg, #ff6f00, #ffab00);
-            color: #1a1a2e;
-            border-color: #fff;
-            animation: winnerGlow 1s infinite;
-            transform: scale(1.1);
-        }
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 210, 0, 0.4); }
-            50% { box-shadow: 0 0 40px rgba(255, 210, 0, 0.8); }
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        @keyframes winnerGlow {
-            0%, 100% { box-shadow: 0 0 30px rgba(255, 171, 0, 0.6); transform: scale(1.1); }
-            50% { box-shadow: 0 0 60px rgba(255, 171, 0, 1); transform: scale(1.15); }
-        }
-        
-        .actions {
-            display: flex;
+            gap: 10px;
+            margin: 12px 0 16px;
             flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin: 10px 0;
         }
-        .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
+
+        .pay-btn {
+            flex: 1;
+            padding: 12px 10px;
+            border: 2px solid rgba(255, 255, 255, 0.10);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.60);
+            font-weight: 600;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 13px;
+            transition: 0.15s ease;
+            text-align: center;
+            min-width: 70px;
         }
-        .btn:disabled {
-            opacity: 0.4;
+
+        .pay-btn:hover {
+            border-color: rgba(255, 215, 0, 0.30);
+            color: #fff;
+        }
+
+        .pay-btn.active {
+            border-color: #f9e05d;
+            background: rgba(249, 224, 93, 0.12);
+            color: #f9e05d;
+        }
+
+        .pay-btn .small {
+            font-size: 0.70rem;
+            opacity: 0.50;
+            display: block;
+            font-weight: 400;
+        }
+
+        /* ===== TELEBIRR INFO ===== */
+        .telebirr-info {
+            background: rgba(0, 200, 150, 0.06);
+            border: 1px solid rgba(0, 200, 150, 0.15);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 12px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .telebirr-info .icon {
+            font-size: 1.8rem;
+        }
+
+        .telebirr-info .details {
+            flex: 1;
+        }
+
+        .telebirr-info .details .number {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4ade80;
+            letter-spacing: 1px;
+        }
+
+        .telebirr-info .details .hint {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.40);
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: none;
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.80rem;
+            transition: 0.15s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            background: linear-gradient(135deg, #f9e05d, #f5a623);
+            border: none;
+            padding: 16px 30px;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0b0e1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 0 #b27a1a, 0 10px 25px rgba(245, 166, 35, 0.25);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #b27a1a, 0 16px 35px rgba(245, 166, 35, 0.40);
+        }
+
+        .btn-primary:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #b27a1a, 0 8px 20px rgba(245, 166, 35, 0.25);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.40;
             cursor: not-allowed;
-            transform: none !important;
+            transform: none;
         }
-        .btn-primary { background: #ffd200; color: #1a1a2e; }
-        .btn-primary:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(255, 210, 0, 0.3); }
-        .btn-success { background: #4CAF50; color: white; }
-        .btn-success:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(76, 175, 80, 0.3); }
-        .btn-danger { background: #f44336; color: white; }
-        .btn-danger:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(244, 67, 54, 0.3); }
-        .btn-purple { background: #9C27B0; color: white; }
-        .btn-purple:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(156, 39, 176, 0.3); }
-        .btn-info { background: #2196F3; color: white; }
-        .btn-info:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(33, 150, 243, 0.3); }
-        .btn-cyan { background: #00BCD4; color: white; }
-        .btn-cyan:hover:not(:disabled) { transform: scale(1.05); box-shadow: 0 0 20px rgba(0, 188, 212, 0.3); }
-        
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.10);
+            padding: 14px 20px;
+            border-radius: 60px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.15s ease;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.20);
+            padding: 12px 20px;
+            border-radius: 60px;
+            font-size: 0.90rem;
+            font-weight: 600;
+            color: #f87171;
+            cursor: pointer;
+            transition: 0.15s ease;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        /* ===== PARTICIPANTS LIST ===== */
+        .participant-list {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 12px;
+            border-radius: 14px;
+            background: rgba(0, 0, 0, 0.20);
+            padding: 8px;
+        }
+
+        .participant-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .participant-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.30);
+            border-radius: 10px;
+        }
+
+        .participant-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.90rem;
+        }
+
+        .participant-item .p-name {
+            font-weight: 500;
+        }
+
+        .participant-item .p-number {
+            background: rgba(255, 215, 0, 0.12);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #f9e05d;
+            font-size: 0.85rem;
+        }
+
+        .participant-item .p-amount {
+            color: #4ade80;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .empty-msg {
+            color: rgba(255, 255, 255, 0.25);
+            text-align: center;
+            padding: 30px 0;
+            font-size: 0.90rem;
+        }
+
+        /* ===== WINNER DISPLAY ===== */
+        .winner-display {
+            background: rgba(74, 222, 128, 0.06);
+            border: 2px solid rgba(74, 222, 128, 0.20);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .winner-display.show {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .winner-display .big {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #4ade80;
+        }
+
+        .winner-display .sub {
+            color: rgba(255, 255, 255, 0.50);
+            font-size: 0.90rem;
+        }
+
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 24px;
-            border-radius: 12px;
-            color: white;
-            font-weight: bold;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.4s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            max-width: 90%;
-            text-align: center;
-        }
-        .toast.show { opacity: 1; }
-        .toast.success { background: #4CAF50; }
-        .toast.error { background: #f44336; }
-        .toast.info { background: #2196F3; }
-        .toast.winner { background: #ffab00; color: #1a1a2e; font-size: 18px; }
-        .toast.admin { background: #00BCD4; color: #1a1a2e; }
-        .toast.warning { background: #ff9800; color: #1a1a2e; }
-        
-        .modal {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 16px 30px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.95rem;
             display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
             z-index: 999;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .modal.show { display: flex; }
-        .modal-content {
-            background: #1a1a2e;
-            padding: 25px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .modal-content h2 { color: #ffd200; margin-bottom: 15px; text-align: center; }
-        .modal-content p { color: #aaa; margin: 8px 0; }
-        .modal-content .highlight { color: #ffd200; font-weight: bold; }
-        .modal-content .btn { width: 100%; margin-top: 8px; }
-        .modal-close {
-            position: sticky;
-            top: 0;
-            float: right;
-            background: none;
-            border: none;
-            color: #888;
-            font-size: 24px;
-            cursor: pointer;
-        }
-        
-        .footer {
             text-align: center;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            color: #555;
-            font-size: 11px;
+            max-width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.60);
         }
-        
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb { background: #ffd200; border-radius: 10px; }
-        
-        @media (max-width: 600px) {
-            .number-grid { grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 4px; }
-            .number-cell { font-size: 11px; min-height: 40px; }
-            .number-cell .owner-name { font-size: 7px; }
-            .payment-info .details { grid-template-columns: 1fr; }
-            .header h1 { font-size: 1.5em; }
-            .player-name-input input { width: 100px; }
-            .settings { flex-direction: column; }
-            .admin-section .row { flex-direction: column; gap: 8px; }
-            .admin-section .row .info-item { width: 100%; }
+
+        .toast.show {
+            display: block;
+            animation: fadeUp 0.4s ease;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .toast.success {
+            border-color: #4ade80;
+        }
+        .toast.error {
+            border-color: #f87171;
+        }
+        .toast.info {
+            border-color: #60a5fa;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 500px) {
+            .number-grid {
+                grid-template-columns: repeat(8, 1fr);
+                gap: 4px;
+            }
+            .num-btn {
+                font-size: 0.75rem;
+                padding: 8px 0;
+                border-radius: 6px;
+            }
+            .container {
+                padding: 20px 15px;
+                border-radius: 28px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .status-bar {
+                padding: 12px 15px;
+                gap: 8px;
+            }
+            .status-item .value {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="container">
+        <!-- ===== HEADER ===== -->
         <div class="header">
-            <h1>🎰 Meazi Digital Lottery</h1>
-            <p>💰 100 Numbers | Fair Draw | Transparent</p>
+            <h1>🎰 Meazi</h1>
+            <p>Digital Lottery · 80 Numbers · Unlimited Participants</p>
         </div>
-        
-        <!-- Admin Section -->
-        <div class="admin-section" id="adminSection">
-            <h3>🔐 Admin Dashboard <span class="admin-badge">ADMIN</span></h3>
-            <div class="row">
-                <div class="info-item">
-                    <div class="label">👥 Players</div>
-                    <div class="value cyan" id="adminPlayerCount">0</div>
-                </div>
-                <div class="info-item">
-                    <div class="label">🎯 Min to Draw</div>
-                    <div class="value">15</div>
-                </div>
-                <div class="info-item">
-                    <div class="label">💰 Admin Commission (15%)</div>
-                    <div class="value green" id="adminCommissionDisplay">0 Birr</div>
-                </div>
-                <div class="info-item">
-                    <div class="label">🎲 Draw Ready</div>
-                    <div class="value" id="drawReady">❌ No</div>
-                </div>
+
+        <!-- ===== STATUS BAR ===== -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="label">🎯 Participants</div>
+                <div class="value green" id="participantCount">0</div>
             </div>
-            <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px;">
-                <button class="btn btn-danger" onclick="resetGame()">🔄 New Round</button>
-                <button class="btn btn-cyan" onclick="resetAdmin()">👑 Reset Admin</button>
+            <div class="status-item">
+                <div class="label">💰 Total Pool</div>
+                <div class="value" id="totalPool">0 ETB</div>
+            </div>
+            <div class="status-item">
+                <div class="label">🏆 Admin (20%)</div>
+                <div class="value" id="adminCommission">0 ETB</div>
+            </div>
+            <div class="status-item">
+                <div class="label">🎯 Draw Status</div>
+                <div class="value" id="drawStatus" style="font-size:1.0rem;">⏳ Waiting</div>
             </div>
         </div>
-        
-        <div class="payment-info">
-            <h3>💳 Payment Details</h3>
-            <div class="details">
-                <div class="detail-item">
-                    <div class="label">🏦 Telebirr</div>
-                    <div class="value">0945223257</div>
+
+        <!-- ===== TWO COLUMN ===== -->
+        <div class="two-col">
+            <!-- LEFT: Number Selection & Payment -->
+            <div>
+                <div class="section-title">🔢 Select Your Number</div>
+
+                <!-- Legend -->
+                <div class="legend">
+                    <span class="legend-item"><span class="legend-dot r"></span> 1–20</span>
+                    <span class="legend-item"><span class="legend-dot o"></span> 21–40</span>
+                    <span class="legend-item"><span class="legend-dot g"></span> 41–60</span>
+                    <span class="legend-item"><span class="legend-dot gn"></span> 61–80</span>
                 </div>
-                <div class="detail-item">
-                    <div class="label">🏦 Bank</div>
-                    <div class="value">Commercial Bank of Ethiopia</div>
+
+                <div class="number-grid" id="numberGrid"></div>
+
+                <div style="display:flex; gap:10px; margin-bottom:12px;">
+                    <button class="btn-secondary" onclick="randomSelect()" style="flex:1;">🎲 Random</button>
+                    <button class="btn-secondary" onclick="clearSelection()" style="flex:1;">✖️ Clear</button>
                 </div>
-                <div class="detail-item">
-                    <div class="label">💰 Price</div>
-                    <div class="value" id="displayPrice">200 Birr</div>
+
+                <div class="section-title" style="margin-top:18px;">💰 Payment Amount</div>
+                <div class="payment-options">
+                    <button class="pay-btn" data-amount="100" onclick="selectAmount(100)">100 <span class="small">ETB</span></button>
+                    <button class="pay-btn" data-amount="200" onclick="selectAmount(200)">200 <span class="small">ETB</span></button>
+                    <button class="pay-btn" data-amount="300" onclick="selectAmount(300)">300 <span class="small">ETB</span></button>
                 </div>
-                <div class="detail-item">
-                    <div class="label">📌 Account Name</div>
-                    <div class="value">Meazi Digital</div>
+
+                <div class="telebirr-info">
+                    <span class="icon">📱</span>
+                    <div class="details">
+                        <div>Pay via <strong>TeleBirr</strong></div>
+                        <div class="number">0945223257</div>
+                        <div class="hint">Send payment with your phone number as reference</div>
+                    </div>
+                    <button class="copy-btn" onclick="copyTeleBirr()">📋 Copy</button>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="participantName" placeholder="Your full name" style="flex:2; padding:14px 18px; border-radius:60px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.30); color:#fff; font-size:0.95rem; outline:none;" />
+                    <input type="text" id="phoneNumber" placeholder="Phone" style="flex:1; padding:14px 18px; border-radius:60px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.30); color:#fff; font-size:0.95rem; outline:none;" />
+                </div>
+
+                <button class="btn-primary" id="joinBtn" onclick="joinLottery()">✅ Join Lottery</button>
+
+                <!-- Admin Controls -->
+                <div style="margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-primary" onclick="drawWinner()" id="drawBtn" style="background:linear-gradient(135deg,#4ade80,#22c55e); box-shadow:0 6px 0 #15803d;">🏆 Draw Winner</button>
+                        <button class="btn-danger" onclick="resetLottery()">🔄 Reset</button>
+                    </div>
+                    <p style="font-size:0.70rem; color:rgba(255,255,255,0.25); margin-top:8px; text-align:center;">⬆ Admin only: Draw anytime (minimum 20 participants)</p>
                 </div>
             </div>
-        </div>
-        
-        <div class="settings">
-            <label>💰 Price:</label>
-            <select id="ticketPrice">
-                <option value="100">100 Birr</option>
-                <option value="200" selected>200 Birr</option>
-                <option value="300">300 Birr</option>
-                <option value="500">500 Birr</option>
-            </select>
-            <label>🎯 Numbers:</label>
-            <select id="totalNumbers">
-                <option value="50">50</option>
-                <option value="100" selected>100</option>
-                <option value="200">200</option>
-                <option value="300">300</option>
-                <option value="600">600</option>
-            </select>
-        </div>
-        
-        <div class="stats">
-            <div class="stat-box"><div class="label">Round</div><div class="value" id="roundId">1</div></div>
-            <div class="stat-box"><div class="label">Players</div><div class="value green" id="totalPlayers">0</div></div>
-            <div class="stat-box"><div class="label">Prize Pool</div><div class="value" id="prizePool">0 Birr</div></div>
-            <div class="stat-box"><div class="label">Available</div><div class="value green" id="availableCount">100</div></div>
-            <div class="stat-box"><div class="label">Sold</div><div class="value red" id="soldCount">0</div></div>
-        </div>
-        
-        <div class="user-info">
-            <div class="player-name-input">
-                <span>👤</span>
-                <input type="text" id="playerNameInput" placeholder="Your name or username">
-                <button onclick="setPlayer()">Set</button>
+
+            <!-- RIGHT: Participants List -->
+            <div>
+                <div class="section-title">👥 Participants (<span id="participantCountLabel">0</span>)</div>
+                <div class="participant-list" id="participantList">
+                    <div class="empty-msg">No participants yet</div>
+                </div>
+
+                <!-- Winner Display -->
+                <div class="winner-display" id="winnerDisplay">
+                    <div class="sub">🏆 Winner</div>
+                    <div class="big" id="winnerNumber">-</div>
+                    <div class="sub" id="winnerName">-</div>
+                    <div class="sub" id="winnerPrize" style="color:#f9e05d; font-weight:600;">0 ETB</div>
+                </div>
             </div>
-            <span id="playerDisplay" style="font-size:14px;color:#aaa;">Not set</span>
-            <span class="balance">💰 <span id="balanceDisplay">0</span> Birr</span>
-        </div>
-        
-        <div class="legend">
-            <div class="legend-item"><div class="legend-color available"></div> Available</div>
-            <div class="legend-item"><div class="legend-color taken"></div> Taken</div>
-            <div class="legend-item"><div class="legend-color yours"></div> Your Number</div>
-            <div class="legend-item"><div class="legend-color commissioner"></div> Commissioner</div>
-            <div class="legend-item"><div class="legend-color admin"></div> Admin</div>
-            <div class="legend-item"><div class="legend-color winner"></div> Winner!</div>
-        </div>
-        
-        <div id="loading" style="text-align:center;padding:30px;color:#888;">Loading numbers...</div>
-        <div class="number-grid" id="numberGrid"></div>
-        
-        <div class="actions">
-            <button class="btn btn-success" onclick="buyRandom()">🎟️ Random Pick</button>
-            <button class="btn btn-primary" onclick="showPaymentModal()">💳 Pay Now</button>
-            <button class="btn btn-danger" onclick="showDrawModal()" id="drawButtonMain">🎲 Draw Winner</button>
-            <button class="btn btn-info" onclick="showParticipants()">👥 Participants</button>
-        </div>
-        
-        <div class="footer">
-            ⚡ Powered by Meazi Digital | 📱 Telebirr: 0945223257 | 🎯 Good Luck!
         </div>
     </div>
-    
-    <!-- Payment Modal -->
-    <div class="modal" id="paymentModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('paymentModal')">✕</button>
-            <h2>💳 Payment Instructions</h2>
-            <p>Send <span class="highlight" id="payAmount">200</span> Birr to:</p>
-            <div style="background:rgba(255,215,0,0.1);border-radius:10px;padding:15px;margin:15px 0;text-align:center;">
-                <div style="font-size:24px;color:#ffd200;font-weight:bold;">0945223257</div>
-                <div style="font-size:12px;color:#888;">Telebirr</div>
-            </div>
-            <p>🏦 <strong>Bank:</strong> Commercial Bank of Ethiopia</p>
-            <p>📌 <strong>Account:</strong> Meazi Digital</p>
-            <p style="font-size:12px;color:#888;margin-top:10px;">
-                📸 Take a screenshot and send to admin for confirmation<br>
-                Reference: <span class="highlight" id="payRef">-</span>
-            </p>
-            <button class="btn btn-primary" onclick="closeModal('paymentModal')">✅ I've Sent the Money</button>
-            <button class="btn btn-cyan" onclick="simulatePayment()">🔧 Admin: Confirm Payment</button>
-        </div>
-    </div>
-    
-    <!-- Draw Modal -->
-    <div class="modal" id="drawModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('drawModal')">✕</button>
-            <h2>🎲 Draw Winner</h2>
-            <div id="drawInfo">
-                <p>👥 Players: <span class="highlight" id="drawPlayers">0</span></p>
-                <p>💰 Prize Pool: <span class="highlight" id="drawPool">0</span> Birr</p>
-                <p>🎯 Numbers Sold: <span class="highlight" id="drawSold">0</span>/<span id="drawTotal">100</span></p>
-                <p>📋 Min Players Needed: <span class="highlight" style="color:#ffd200;">15</span></p>
-                <p>💰 Admin Commission (15%): <span class="highlight" id="drawCommission">0</span> Birr</p>
-                <p>🏆 Winner Gets: <span class="highlight" id="drawWinnerPrize">0</span> Birr</p>
-                <p id="drawStatus" style="color:#ffd200;font-weight:bold;"></p>
-            </div>
-            <div id="drawResult" style="text-align:center;padding:20px;font-size:28px;font-weight:bold;min-height:80px;"></div>
-            <button class="btn btn-danger" onclick="drawWinner()" id="drawButton">🎲 Draw Now</button>
-            <button class="btn btn-primary" onclick="closeModal('drawModal')">Close</button>
-        </div>
-    </div>
-    
-    <!-- Participants Modal -->
-    <div class="modal" id="participantsModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal('participantsModal')">✕</button>
-            <h2>👥 All Participants</h2>
-            <div id="participantsList" style="max-height:400px;overflow-y:auto;"></div>
-        </div>
-    </div>
-    
+
+    <!-- ===== TOAST ===== -->
     <div class="toast" id="toast"></div>
-    
+
     <script>
         // ============================================================
-        // CONFIGURATION - YOUR RULES
+        //  STATE
         // ============================================================
-        const PAYMENT_NUMBER = "0945223257";
-        const BANK_NAME = "Commercial Bank of Ethiopia";
-        const ACCOUNT_NAME = "Meazi Digital";
-        const MIN_PLAYERS_TO_DRAW = 15;  // Minimum 15 players required
-        const ADMIN_COMMISSION = 15;      // 15% commission for admin
-        
-        let gameState = {
-            round: 1,
-            price: 200,
-            totalNumbers: 100,
-            numbers: {},
-            players: {},
-            commissioner: null,
-            admin: null,
-            winner: null,
-            winnerNumber: null,
-            drawHistory: [],
-            totalCommission: 0
+        const TOTAL_NUMBERS = 80;
+        const MIN_PARTICIPANTS_TO_DRAW = 20;
+        const ADMIN_COMMISSION_RATE = 0.20; // 20%
+        const TELEBIRR_NUMBER = '0945223257';
+
+        let lottery = {
+            participants: [], // { name, phone, number, amount }
+            selectedNumber: null,
+            selectedAmount: 100,
+            winner: null, // { name, phone, number, amount, prize }
+            isDrawn: false,
         };
-        
-        let currentPlayer = null;
-        let userBalance = 0;
-        let myNumbers = [];
-        let playerIdCounter = 1;
-        let isAdmin = false;
-        
+
         // ============================================================
-        // ADMIN FUNCTIONS
+        //  DOM REFS
         // ============================================================
-        function updateAdminUI() {
-            const taken = Object.values(gameState.numbers).filter(n => n.taken).length;
-            const players = new Set(Object.values(gameState.numbers).filter(n => n.taken).map(n => n.owner)).size;
-            const pool = taken * gameState.price;
-            const commission = Math.floor(pool * (ADMIN_COMMISSION / 100));
-            
-            document.getElementById('adminPlayerCount').textContent = players;
-            document.getElementById('adminCommissionDisplay').textContent = commission + ' Birr';
-            
-            const ready = players >= MIN_PLAYERS_TO_DRAW;
-            document.getElementById('drawReady').textContent = ready ? '✅ Yes' : '❌ No';
-            document.getElementById('drawReady').style.color = ready ? '#4CAF50' : '#f44336';
-            document.getElementById('drawReady').className = `value ${ready ? 'green' : 'red'}`;
-        }
-        
-        function resetAdmin() {
-            if (!confirm('Reset admin? This will allow a new admin to be set.')) return;
-            gameState.admin = null;
-            isAdmin = false;
-            showToast('👑 Admin reset! First player will be admin.', 'info');
-            updateUI();
-            saveGameState();
-        }
-        
+        const gridEl = document.getElementById('numberGrid');
+        const listEl = document.getElementById('participantList');
+        const countEl = document.getElementById('participantCount');
+        const countLabelEl = document.getElementById('participantCountLabel');
+        const poolEl = document.getElementById('totalPool');
+        const commissionEl = document.getElementById('adminCommission');
+        const drawStatusEl = document.getElementById('drawStatus');
+        const joinBtn = document.getElementById('joinBtn');
+        const drawBtn = document.getElementById('drawBtn');
+        const winnerDisplay = document.getElementById('winnerDisplay');
+        const winnerNumberEl = document.getElementById('winnerNumber');
+        const winnerNameEl = document.getElementById('winnerName');
+        const winnerPrizeEl = document.getElementById('winnerPrize');
+        const toastEl = document.getElementById('toast');
+
         // ============================================================
-        // PLAYER FUNCTIONS
+        //  INIT
         // ============================================================
-        function setPlayer() {
-            const input = document.getElementById('playerNameInput');
-            const name = input.value.trim();
-            
-            if (!name) {
-                showToast('❌ Please enter your name or username', 'error');
-                return;
-            }
-            
-            const id = playerIdCounter++;
-            
-            currentPlayer = {
-                id: id,
-                name: name
-            };
-            
-            document.getElementById('playerDisplay').textContent = name + ' (#' + id + ')';
-            document.getElementById('playerDisplay').style.color = '#4CAF50';
-            input.value = '';
-            
-            // Set admin: first player becomes admin
-            if (!gameState.admin) {
-                gameState.admin = id;
-                isAdmin = true;
-                showToast('👑 You are the ADMIN! Only you can draw.', 'admin');
-                document.getElementById('adminSection').style.display = 'block';
-            }
-            
-            // Set commissioner if not set
-            if (!gameState.commissioner) {
-                gameState.commissioner = id;
-                showToast('👑 You are the Commissioner! Free numbers assigned.', 'info');
-                assignCommissionerNumbers(id, name);
-            }
-            
-            loadPlayerData();
-            showToast('✅ Welcome ' + name + '!', 'success');
-        }
-        
-        function assignCommissionerNumbers(id, name) {
-            const available = Object.keys(gameState.numbers).filter(n => !gameState.numbers[n].taken);
-            const freeCount = Math.min(3, available.length);
-            
-            for (let i = 0; i < freeCount; i++) {
-                const num = parseInt(available[i]);
-                gameState.numbers[num].taken = true;
-                gameState.numbers[num].owner = id;
-                gameState.numbers[num].ownerName = name + ' 👑';
-                myNumbers.push(num);
-            }
-            updateUI();
-            saveGameState();
-        }
-        
-        function loadPlayerData() {
-            if (!currentPlayer) return;
-            
-            const balance = localStorage.getItem('balance_' + currentPlayer.id);
-            userBalance = balance ? parseInt(balance) : 0;
-            
-            const nums = localStorage.getItem('mynumbers_' + currentPlayer.id);
-            myNumbers = nums ? JSON.parse(nums) : [];
-            
-            document.getElementById('balanceDisplay').textContent = userBalance;
-            updateUI();
-        }
-        
-        // ============================================================
-        // GAME FUNCTIONS
-        // ============================================================
-        function initGame() {
-            const saved = localStorage.getItem('gameState');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    gameState = parsed;
-                } catch(e) {}
-            }
-            
-            if (Object.keys(gameState.numbers).length === 0) {
-                for (let i = 1; i <= gameState.totalNumbers; i++) {
-                    gameState.numbers[i] = { owner: null, ownerName: null, taken: false };
-                }
-            }
-            
-            const currentMax = Object.keys(gameState.numbers).length;
-            if (currentMax < gameState.totalNumbers) {
-                for (let i = currentMax + 1; i <= gameState.totalNumbers; i++) {
-                    gameState.numbers[i] = { owner: null, ownerName: null, taken: false };
-                }
-            }
-            
-            document.getElementById('displayPrice').textContent = gameState.price + ' Birr';
-            document.getElementById('ticketPrice').value = gameState.price;
-            document.getElementById('totalNumbers').value = gameState.totalNumbers;
-            
-            if (currentPlayer) loadPlayerData();
-            
-            updateUI();
-            saveGameState();
-        }
-        
-        function saveGameState() {
-            localStorage.setItem('gameState', JSON.stringify(gameState));
-            if (currentPlayer) {
-                localStorage.setItem('balance_' + currentPlayer.id, userBalance);
-                localStorage.setItem('mynumbers_' + currentPlayer.id, JSON.stringify(myNumbers));
-            }
-            updateAdminUI();
-        }
-        
-        function updateUI() {
-            const taken = Object.values(gameState.numbers).filter(n => n.taken).length;
-            const players = new Set(Object.values(gameState.numbers).filter(n => n.taken).map(n => n.owner)).size;
-            const pool = taken * gameState.price;
-            const available = gameState.totalNumbers - taken;
-            
-            document.getElementById('roundId').textContent = gameState.round;
-            document.getElementById('totalPlayers').textContent = players;
-            document.getElementById('prizePool').textContent = pool + ' Birr';
-            document.getElementById('availableCount').textContent = available;
-            document.getElementById('soldCount').textContent = taken;
-            document.getElementById('balanceDisplay').textContent = userBalance || 0;
-            document.getElementById('displayPrice').textContent = gameState.price + ' Birr';
-            
+        function init() {
             renderGrid();
-            updateAdminUI();
-            saveGameState();
+            updateUI();
+            loadFromStorage();
         }
-        
+
+        // ============================================================
+        //  NUMBER GRID (COLORFUL)
+        // ============================================================
         function renderGrid() {
-            const grid = document.getElementById('numberGrid');
-            const loading = document.getElementById('loading');
-            grid.innerHTML = '';
-            loading.style.display = 'none';
-            
-            const mySet = new Set(myNumbers);
-            
-            for (let i = 1; i <= gameState.totalNumbers; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'number-cell';
-                const data = gameState.numbers[i];
-                const numSpan = document.createElement('span');
-                numSpan.textContent = i;
-                cell.appendChild(numSpan);
-                
-                if (gameState.winnerNumber === i) {
-                    cell.classList.add('winner');
-                    const label = document.createElement('span');
-                    label.className = 'owner-name';
-                    label.textContent = '🏆 WINNER!';
-                    cell.appendChild(label);
-                } else if (data.taken) {
-                    if (data.owner === gameState.admin) {
-                        cell.classList.add('admin-owned');
-                        const label = document.createElement('span');
-                        label.className = 'owner-name';
-                        label.textContent = '🔐 Admin';
-                        cell.appendChild(label);
-                    } else if (data.owner === gameState.commissioner) {
-                        cell.classList.add('commissioner');
-                        const label = document.createElement('span');
-                        label.className = 'owner-name';
-                        label.textContent = '👑 ' + (data.ownerName || 'Commissioner');
-                        cell.appendChild(label);
-                    } else if (data.owner === currentPlayer?.id) {
-                        cell.classList.add('yours');
-                        const label = document.createElement('span');
-                        label.className = 'owner-name';
-                        label.textContent = '⭐ Your number';
-                        cell.appendChild(label);
-                    } else {
-                        cell.classList.add('taken');
-                        const label = document.createElement('span');
-                        label.className = 'owner-name';
-                        label.textContent = data.ownerName || 'Taken';
-                        cell.appendChild(label);
-                    }
-                } else {
-                    cell.classList.add('available');
-                    cell.onclick = () => buyNumber(i);
-                    const label = document.createElement('span');
-                    label.className = 'owner-name';
-                    label.textContent = 'Buy';
-                    cell.appendChild(label);
+            gridEl.innerHTML = '';
+            for (let i = 1; i <= TOTAL_NUMBERS; i++) {
+                const btn = document.createElement('button');
+                btn.className = 'num-btn';
+
+                // Assign color zone
+                if (i <= 20) btn.classList.add('zone-1');
+                else if (i <= 40) btn.classList.add('zone-2');
+                else if (i <= 60) btn.classList.add('zone-3');
+                else btn.classList.add('zone-4');
+
+                btn.dataset.number = i;
+                btn.textContent = i;
+                btn.onclick = () => selectNumber(i);
+                gridEl.appendChild(btn);
+            }
+            updateGrid();
+        }
+
+        function updateGrid() {
+            const btns = gridEl.querySelectorAll('.num-btn');
+            const takenNumbers = new Set(lottery.participants.map(p => p.number));
+            const winnerNum = lottery.winner ? lottery.winner.number : null;
+
+            btns.forEach(btn => {
+                const num = parseInt(btn.dataset.number);
+                btn.classList.remove('selected', 'taken', 'winner');
+
+                if (num === lottery.selectedNumber) {
+                    btn.classList.add('selected');
                 }
-                
-                grid.appendChild(cell);
-            }
+                if (takenNumbers.has(num)) {
+                    btn.classList.add('taken');
+                }
+                if (num === winnerNum) {
+                    btn.classList.add('winner');
+                }
+            });
         }
-        
-        function buyNumber(number) {
-            if (!currentPlayer) {
-                showToast('❌ Please set your name first!', 'error');
+
+        // ============================================================
+        //  SELECTION
+        // ============================================================
+        function selectNumber(num) {
+            if (lottery.isDrawn) {
+                showToast('⚠️ Lottery already drawn! Reset to play again.', 'error');
                 return;
             }
-            
-            if (gameState.numbers[number].taken) {
-                showToast('❌ Number already taken!', 'error');
+            const taken = lottery.participants.some(p => p.number === num);
+            if (taken) {
+                showToast(`❌ Number ${num} is already taken!`, 'error');
                 return;
             }
-            
-            if (userBalance < gameState.price) {
-                showToast(`❌ Insufficient balance! Need ${gameState.price} Birr`, 'error');
-                return;
-            }
-            
-            if (!confirm(`Buy number ${number} for ${gameState.price} Birr?`)) return;
-            
-            gameState.numbers[number].taken = true;
-            gameState.numbers[number].owner = currentPlayer.id;
-            gameState.numbers[number].ownerName = currentPlayer.name;
-            userBalance -= gameState.price;
-            myNumbers.push(number);
-            
-            if (!gameState.players[currentPlayer.id]) {
-                gameState.players[currentPlayer.id] = { name: currentPlayer.name, numbers: [] };
-            }
-            gameState.players[currentPlayer.id].numbers.push(number);
-            
-            showToast(`✅ Purchased ticket #${number}! Good luck! 🍀`, 'success');
-            updateUI();
+            lottery.selectedNumber = num;
+            updateGrid();
         }
-        
-        function buyRandom() {
-            if (!currentPlayer) {
-                showToast('❌ Please set your name first!', 'error');
+
+        function randomSelect() {
+            if (lottery.isDrawn) {
+                showToast('⚠️ Lottery already drawn! Reset to play again.', 'error');
                 return;
             }
-            
-            const available = Object.keys(gameState.numbers).filter(n => !gameState.numbers[n].taken);
+            const takenNumbers = new Set(lottery.participants.map(p => p.number));
+            const available = [];
+            for (let i = 1; i <= TOTAL_NUMBERS; i++) {
+                if (!takenNumbers.has(i)) available.push(i);
+            }
             if (available.length === 0) {
-                showToast('❌ No numbers available!', 'error');
+                showToast('❌ All 80 numbers are taken!', 'error');
                 return;
             }
-            const randomNum = parseInt(available[Math.floor(Math.random() * available.length)]);
-            buyNumber(randomNum);
+            const rand = available[Math.floor(Math.random() * available.length)];
+            lottery.selectedNumber = rand;
+            updateGrid();
+            showToast(`🎲 Random number: ${rand}`, 'info');
         }
-        
-        function showPaymentModal() {
-            if (!currentPlayer) {
-                showToast('❌ Please set your name first!', 'error');
-                return;
-            }
-            document.getElementById('payAmount').textContent = gameState.price;
-            document.getElementById('payRef').textContent = 'REF-' + currentPlayer.id + '-' + Date.now().toString().slice(-6);
-            document.getElementById('paymentModal').classList.add('show');
+
+        function clearSelection() {
+            lottery.selectedNumber = null;
+            updateGrid();
         }
-        
-        function simulatePayment() {
-            if (!currentPlayer) {
-                showToast('❌ Set your name first', 'error');
+
+        function selectAmount(amount) {
+            lottery.selectedAmount = amount;
+            document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.pay-btn[data-amount="${amount}"]`).classList.add('active');
+        }
+
+        // ============================================================
+        //  JOIN LOTTERY
+        // ============================================================
+        function joinLottery() {
+            if (lottery.isDrawn) {
+                showToast('⚠️ Lottery already drawn! Reset to play again.', 'error');
                 return;
             }
-            userBalance += gameState.price;
-            showToast(`💰 ${gameState.price} Birr added to balance`, 'success');
+
+            const name = document.getElementById('participantName').value.trim();
+            const phone = document.getElementById('phoneNumber').value.trim();
+
+            if (!name) {
+                showToast('❌ Please enter your full name.', 'error');
+                return;
+            }
+            if (!phone) {
+                showToast('❌ Please enter your phone number.', 'error');
+                return;
+            }
+            if (lottery.selectedNumber === null) {
+                showToast('❌ Please select a number (1-80).', 'error');
+                return;
+            }
+
+            // Check if number is taken
+            const taken = lottery.participants.some(p => p.number === lottery.selectedNumber);
+            if (taken) {
+                showToast(`❌ Number ${lottery.selectedNumber} is already taken!`, 'error');
+                return;
+            }
+
+            // Check if phone already joined
+            const already = lottery.participants.some(p => p.phone === phone);
+            if (already) {
+                showToast('❌ This phone number already joined!', 'error');
+                return;
+            }
+
+            // Add participant
+            lottery.participants.push({
+                name: name,
+                phone: phone,
+                number: lottery.selectedNumber,
+                amount: lottery.selectedAmount,
+            });
+
+            // Clear selection
+            lottery.selectedNumber = null;
+            document.getElementById('participantName').value = '';
+            document.getElementById('phoneNumber').value = '';
+
+            showToast(`✅ ${name} joined with #${lottery.selectedAmount} ETB!`, 'success');
             updateUI();
-            closeModal('paymentModal');
-        }
-        
-        // ============================================================
-        // DRAW FUNCTIONS - ADMIN ONLY
-        // ============================================================
-        function showDrawModal() {
-            const taken = Object.values(gameState.numbers).filter(n => n.taken);
-            const players = new Set(taken.map(n => n.owner)).size;
-            const pool = taken.length * gameState.price;
-            const commission = Math.floor(pool * (ADMIN_COMMISSION / 100));
-            const winnerPrize = pool - commission;
-            
-            document.getElementById('drawPlayers').textContent = players;
-            document.getElementById('drawPool').textContent = pool + ' Birr';
-            document.getElementById('drawSold').textContent = taken.length;
-            document.getElementById('drawTotal').textContent = gameState.totalNumbers;
-            document.getElementById('drawCommission').textContent = commission + ' Birr';
-            document.getElementById('drawWinnerPrize').textContent = winnerPrize + ' Birr';
-            
-            document.getElementById('drawResult').textContent = '';
-            document.getElementById('drawButton').disabled = false;
-            
-            // Check if admin
-            if (gameState.admin !== currentPlayer?.id) {
-                document.getElementById('drawStatus').textContent = '⛔ Only Admin can draw!';
-                document.getElementById('drawStatus').style.color = '#f44336';
-                document.getElementById('drawButton').disabled = true;
-                showToast('⛔ Only the Admin can draw the lottery!', 'error');
-            } else if (players < MIN_PLAYERS_TO_DRAW) {
-                document.getElementById('drawStatus').textContent = `❌ Need ${MIN_PLAYERS_TO_DRAW} players. Currently: ${players}`;
-                document.getElementById('drawStatus').style.color = '#ff9800';
-                document.getElementById('drawButton').disabled = true;
-                showToast(`❌ Need ${MIN_PLAYERS_TO_DRAW} players to draw! Currently: ${players}`, 'warning');
+            saveToStorage();
+
+            // Check if we reached minimum for draw
+            if (lottery.participants.length >= MIN_PARTICIPANTS_TO_DRAW) {
+                showToast(`🎯 ${lottery.participants.length} participants! Admin can draw now.`, 'info');
+                drawStatusEl.textContent = `✅ ${lottery.participants.length} Ready!`;
+                drawStatusEl.style.color = '#4ade80';
             } else {
-                document.getElementById('drawStatus').textContent = '✅ Ready to draw!';
-                document.getElementById('drawStatus').style.color = '#4CAF50';
-                document.getElementById('drawButton').disabled = false;
+                drawStatusEl.textContent = `⏳ ${lottery.participants.length}/${MIN_PARTICIPANTS_TO_DRAW}`;
+                drawStatusEl.style.color = '#f9e05d';
             }
-            
-            document.getElementById('drawModal').classList.add('show');
         }
-        
+
+        // ============================================================
+        //  DRAW WINNER
+        // ============================================================
         function drawWinner() {
-            const taken = Object.values(gameState.numbers).filter(n => n.taken);
-            const players = new Set(taken.map(n => n.owner)).size;
-            
-            // Check admin
-            if (gameState.admin !== currentPlayer?.id) {
-                showToast('⛔ Only Admin can draw!', 'error');
+            if (lottery.isDrawn) {
+                showToast('⚠️ Winner already drawn! Reset to play again.', 'error');
                 return;
             }
-            
-            // Check minimum players
-            if (players < MIN_PLAYERS_TO_DRAW) {
-                showToast(`❌ Need ${MIN_PLAYERS_TO_DRAW} players! Currently: ${players}`, 'warning');
+
+            if (lottery.participants.length < MIN_PARTICIPANTS_TO_DRAW) {
+                showToast(`❌ Need at least ${MIN_PARTICIPANTS_TO_DRAW} participants. Currently: ${lottery.participants.length}`, 'error');
                 return;
             }
-            
-            // Pick winner
-            const winnerEntry = taken[Math.floor(Math.random() * taken.length)];
-            const winnerNumber = Object.keys(gameState.numbers).find(n => gameState.numbers[n] === winnerEntry);
-            gameState.winner = winnerEntry.owner;
-            gameState.winnerNumber = parseInt(winnerNumber);
-            
-            const pool = taken.length * gameState.price;
-            const commission = Math.floor(pool * (ADMIN_COMMISSION / 100));
-            const winnerPrize = pool - commission;
-            const winnerName = winnerEntry.ownerName || 'Player';
-            
-            // Show winner with celebration
-            document.getElementById('drawResult').innerHTML = `
-                🎉🎊🎉<br>
-                <span style="font-size:48px;">🏆</span><br>
-                Winner: <span style="color:#ffd200;">#${winnerNumber}</span><br>
-                <span style="font-size:16px;color:#4CAF50;">${winnerName}</span><br>
-                Prize: <span style="color:#ffd200;">${winnerPrize} Birr</span><br>
-                <span style="font-size:12px;color:#888;">Admin Commission (15%): ${commission} Birr</span>
-            `;
-            document.getElementById('drawButton').disabled = true;
-            
-            showToast(`🎉 WINNER! #${winnerNumber} won ${winnerPrize} Birr! 🎉`, 'winner');
-            
-            gameState.totalCommission += commission;
-            gameState.drawHistory.push({
-                round: gameState.round,
-                winnerNumber: winnerNumber,
-                winnerName: winnerName,
-                prize: winnerPrize,
-                commission: commission,
-                timestamp: new Date().toISOString()
-            });
-            
+
+            // Pick random winner
+            const randomIndex = Math.floor(Math.random() * lottery.participants.length);
+            const winner = lottery.participants[randomIndex];
+
+            // Calculate prize: total pool - admin commission (20%)
+            const totalPool = lottery.participants.reduce((sum, p) => sum + p.amount, 0);
+            const adminCut = totalPool * ADMIN_COMMISSION_RATE;
+            const prize = totalPool - adminCut;
+
+            lottery.winner = {
+                ...winner,
+                prize: prize,
+                totalPool: totalPool,
+                adminCut: adminCut,
+            };
+            lottery.isDrawn = true;
+
+            // Show winner
+            winnerDisplay.classList.add('show');
+            winnerNumberEl.textContent = winner.number;
+            winnerNameEl.textContent = `🏅 ${winner.name} (${winner.phone})`;
+            winnerPrizeEl.textContent = `${prize.toFixed(2)} ETB`;
+
+            drawStatusEl.textContent = '🏆 Drawn!';
+            drawStatusEl.style.color = '#4ade80';
+            drawBtn.disabled = true;
+
+            showToast(`🏆 WINNER: ${winner.name} - Number ${winner.number} - Prize ${prize.toFixed(2)} ETB!`, 'success');
             updateUI();
-            saveGameState();
-            
-            setTimeout(() => {
-                closeModal('drawModal');
-                if (confirm('Start new round?')) resetGame();
-            }, 10000);
+            saveToStorage();
         }
-        
+
         // ============================================================
-        // PARTICIPANTS
+        //  RESET
         // ============================================================
-        function showParticipants() {
-            const modal = document.getElementById('participantsModal');
-            const list = document.getElementById('participantsList');
-            
-            const taken = Object.values(gameState.numbers).filter(n => n.taken);
-            const playerMap = {};
-            
-            taken.forEach(n => {
-                if (!playerMap[n.owner]) {
-                    playerMap[n.owner] = { name: n.ownerName || 'Player', numbers: [] };
-                }
-                const num = Object.keys(gameState.numbers).find(k => gameState.numbers[k] === n);
-                playerMap[n.owner].numbers.push(parseInt(num));
-            });
-            
-            let html = '';
-            const sorted = Object.keys(playerMap).sort((a,b) => playerMap[a].numbers.length - playerMap[b].numbers.length);
-            
-            sorted.forEach((id) => {
-                const p = playerMap[id];
-                const isWinner = parseInt(id) === gameState.winner;
-                const isAdmin = parseInt(id) === gameState.admin;
-                const isCommissioner = parseInt(id) === gameState.commissioner;
-                const isYou = parseInt(id) === currentPlayer?.id;
-                
-                html += `
-                    <div style="background:${isWinner ? 'rgba(255,171,0,0.2)' : isAdmin ? 'rgba(0,188,212,0.2)' : 'rgba(255,255,255,0.05)'};padding:10px;border-radius:8px;margin:5px 0;border-left:3px solid ${isWinner ? '#ffab00' : isAdmin ? '#00BCD4' : isCommissioner ? '#9C27B0' : isYou ? '#ffd200' : 'transparent'};">
-                        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:5px;">
-                            <span>
-                                ${isWinner ? '🏆 ' : ''}
-                                ${isAdmin ? '🔐 ' : ''}
-                                ${isCommissioner ? '👑 ' : ''}
-                                ${isYou ? '⭐ ' : ''}
-                                <strong>${p.name}</strong>
-                                ${isYou ? ' (You)' : ''}
-                                ${isWinner ? ' 🎉 WINNER!' : ''}
-                                ${isAdmin ? ' (Admin)' : ''}
-                            </span>
-                            <span style="color:#ffd200;">${p.numbers.length} ticket(s)</span>
-                        </div>
-                        <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px;">
-                            ${p.numbers.sort((a,b) => a-b).map(n => `<span style="background:rgba(255,215,0,0.2);padding:2px 8px;border-radius:4px;font-size:12px;">#${n}</span>`).join('')}
-                        </div>
+        function resetLottery() {
+            if (!confirm('⚠️ Reset everything? All data will be lost.')) return;
+
+            lottery = {
+                participants: [],
+                selectedNumber: null,
+                selectedAmount: 100,
+                winner: null,
+                isDrawn: false,
+            };
+
+            winnerDisplay.classList.remove('show');
+            drawBtn.disabled = false;
+            drawStatusEl.textContent = '⏳ Waiting';
+            drawStatusEl.style.color = '#f9e05d';
+            document.getElementById('participantName').value = '';
+            document.getElementById('phoneNumber').value = '';
+
+            showToast('🔄 Lottery has been reset.', 'info');
+            updateUI();
+            saveToStorage();
+            renderGrid();
+        }
+
+        // ============================================================
+        //  UPDATE UI
+        // ============================================================
+        function updateUI() {
+            const count = lottery.participants.length;
+            const totalPool = lottery.participants.reduce((sum, p) => sum + p.amount, 0);
+            const adminCut = totalPool * ADMIN_COMMISSION_RATE;
+
+            countEl.textContent = count;
+            countLabelEl.textContent = count;
+            poolEl.textContent = `${totalPool.toFixed(2)} ETB`;
+            commissionEl.textContent = `${adminCut.toFixed(2)} ETB`;
+
+            // Update grid
+            updateGrid();
+
+            // Update participant list
+            if (count === 0) {
+                listEl.innerHTML = `<div class="empty-msg">No participants yet</div>`;
+            } else {
+                listEl.innerHTML = lottery.participants.map((p, idx) => `
+                    <div class="participant-item">
+                        <span class="p-name">${idx+1}. ${p.name}</span>
+                        <span class="p-number">#${p.number}</span>
+                        <span class="p-amount">${p.amount} ETB</span>
                     </div>
-                `;
+                `).join('');
+            }
+
+            // Enable/disable join button
+            joinBtn.disabled = lottery.isDrawn;
+
+            // Update draw status
+            if (!lottery.isDrawn && count >= MIN_PARTICIPANTS_TO_DRAW) {
+                drawStatusEl.textContent = `✅ ${count} Ready!`;
+                drawStatusEl.style.color = '#4ade80';
+            } else if (!lottery.isDrawn) {
+                drawStatusEl.textContent = `⏳ ${count}/${MIN_PARTICIPANTS_TO_DRAW}`;
+                drawStatusEl.style.color = '#f9e05d';
+            }
+        }
+
+        // ============================================================
+        //  STORAGE (LocalStorage)
+        // ============================================================
+        function saveToStorage() {
+            try {
+                localStorage.setItem('meazi_lottery', JSON.stringify(lottery));
+            } catch (e) {}
+        }
+
+        function loadFromStorage() {
+            try {
+                const data = localStorage.getItem('meazi_lottery');
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    if (parsed.participants && parsed.participants.length > 0) {
+                        lottery = parsed;
+                        if (lottery.winner) {
+                            const totalPool = lottery.participants.reduce((sum, p) => sum + p.amount, 0);
+                            lottery.winner.totalPool = totalPool;
+                            lottery.winner.adminCut = totalPool * ADMIN_COMMISSION_RATE;
+                            lottery.winner.prize = totalPool - lottery.winner.adminCut;
+                            winnerDisplay.classList.add('show');
+                            winnerNumberEl.textContent = lottery.winner.number;
+                            winnerNameEl.textContent = `🏅 ${lottery.winner.name} (${lottery.winner.phone})`;
+                            winnerPrizeEl.textContent = `${lottery.winner.prize.toFixed(2)} ETB`;
+                            drawStatusEl.textContent = '🏆 Drawn!';
+                            drawStatusEl.style.color = '#4ade80';
+                            drawBtn.disabled = true;
+                        }
+                        updateUI();
+                        document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelector(`.pay-btn[data-amount="${lottery.selectedAmount || 100}"]`)?.classList.add('active');
+                    }
+                }
+            } catch (e) {}
+        }
+
+        // ============================================================
+        //  TOAST
+        // ============================================================
+        function showToast(msg, type = 'info') {
+            toastEl.textContent = msg;
+            toastEl.className = `toast ${type} show`;
+            clearTimeout(toastEl._hide);
+            toastEl._hide = setTimeout(() => {
+                toastEl.classList.remove('show');
+            }, 4000);
+        }
+
+        // ============================================================
+        //  COPY TELEBIRR
+        // ============================================================
+        function copyTeleBirr() {
+            navigator.clipboard.writeText(TELEBIRR_NUMBER).then(() => {
+                showToast(`📋 Copied: ${TELEBIRR_NUMBER}`, 'success');
+            }).catch(() => {
+                const input = document.createElement('input');
+                input.value = TELEBIRR_NUMBER;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast(`📋 Copied: ${TELEBIRR_NUMBER}`, 'success');
             });
-            
-            list.innerHTML = html || '<p style="color:#888;text-align:center;">No participants yet</p>';
-            modal.classList.add('show');
         }
-        
+
         // ============================================================
-        // RESET
+        //  START
         // ============================================================
-        function resetGame() {
-            if (!confirm('Start new round? All current data will be saved to history.')) return;
-            
-            const history = JSON.parse(localStorage.getItem('gameHistory') || '[]');
-            history.push({
-                round: gameState.round,
-                numbers: gameState.numbers,
-                players: gameState.players,
-                winner: gameState.winner,
-                winnerNumber: gameState.winnerNumber,
-                timestamp: new Date().toISOString()
-            });
-            localStorage.setItem('gameHistory', JSON.stringify(history));
-            
-            gameState.round++;
-            gameState.numbers = {};
-            gameState.players = {};
-            gameState.commissioner = null;
-            gameState.winner = null;
-            gameState.winnerNumber = null;
-            
-            const total = parseInt(document.getElementById('totalNumbers').value);
-            gameState.totalNumbers = total;
-            gameState.price = parseInt(document.getElementById('ticketPrice').value);
-            
-            for (let i = 1; i <= total; i++) {
-                gameState.numbers[i] = { owner: null, ownerName: null, taken: false };
-            }
-            
-            myNumbers = [];
-            if (currentPlayer) {
-                localStorage.setItem('mynumbers_' + currentPlayer.id, JSON.stringify(myNumbers));
-            }
-            
-            showToast(`🔄 New round ${gameState.round} started! Good luck!`, 'info');
-            updateUI();
-            saveGameState();
-        }
-        
-        // ============================================================
-        // UTILITY
-        // ============================================================
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type} show`;
-            clearTimeout(toast.timeout);
-            toast.timeout = setTimeout(() => { toast.className = 'toast'; }, 5000);
-        }
-        
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('show');
-        }
-        
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('show');
-            });
-        });
-        
-        // Admin: Double-click balance to add funds
-        document.querySelector('.user-info .balance').addEventListener('dblclick', function() {
-            if (!currentPlayer) {
-                showToast('❌ Set your name first', 'error');
-                return;
-            }
-            const amount = parseInt(prompt('Add how much Birr? (Admin only)', gameState.price));
-            if (amount && amount > 0) {
-                userBalance += amount;
-                showToast(`💰 ${amount} Birr added to balance`, 'success');
-                updateUI();
-                saveGameState();
-            }
-        });
-        
-        // ============================================================
-        // START
-        // ============================================================
-        initGame();
-        console.log('🎰 Meazi Digital Lottery loaded!');
-        console.log('📋 Rules:');
-        console.log('  - Admin can draw only');
-        console.log('  - Minimum 15 players required');
-        console.log('  - Admin commission: 15%');
-        console.log('  - No Telegram ID needed');
+        document.querySelector('.pay-btn[data-amount="100"]')?.classList.add('active');
+        lottery.selectedAmount = 100;
+        init();
     </script>
+
 </body>
 </html>
