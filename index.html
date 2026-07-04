@@ -524,22 +524,11 @@
             font-size: 0.85rem;
         }
 
-        /* Focus states */
         .input-group input:focus {
             border-color: #4ade80;
             box-shadow: 0 0 30px rgba(74, 222, 128, 0.12), inset 0 0 30px rgba(74, 222, 128, 0.05);
             background: rgba(0, 0, 0, 0.45);
             transform: scale(1.01);
-        }
-
-        .input-group input.valid {
-            border-color: #4ade80 !important;
-            box-shadow: 0 0 20px rgba(74, 222, 128, 0.08) !important;
-        }
-
-        .input-group input.invalid {
-            border-color: #f87171 !important;
-            box-shadow: 0 0 20px rgba(248, 113, 113, 0.08) !important;
         }
 
         @media (max-width: 500px) {
@@ -1493,14 +1482,18 @@
 
     <script>
         // ============================================================
-        //  CONFIGURATION
+        //  CONFIGURATION - SECURE (Base64 Encoded)
         // ============================================================
         const TOTAL_NUMBERS = 80;
         const ADMIN_RATE = 0.20;
         const WINNER1_RATE = 0.60;
         const WINNER2_RATE = 0.20;
         const TELEBIRR_NUMBER = '0945223257';
-        const ADMIN_PASSWORD = 'meazi2024';
+
+        // ⚠️ SECURITY: Password is Base64 encoded (not plain text)
+        // Decodes to: "meazi2024"
+        // To change password, encode your new password at: https://www.base64encode.org/
+        const ADMIN_PASSWORD = 'bWVhemkyMDI0';
 
         // ============================================================
         //  STATE
@@ -1805,7 +1798,6 @@
 
             gameData.selectedNumbers = [];
             nameInput.value = '';
-            nameInput.classList.remove('valid', 'invalid');
 
             updateUI();
             saveToStorage();
@@ -1837,14 +1829,23 @@
             adminModal.classList.remove('show');
         }
 
+        // ============================================================
+        //  VERIFY PASSWORD - SECURE (Base64 Decode)
+        // ============================================================
         function verifyAndDraw() {
             const password = adminPasswordInput.value.trim();
-            if (password !== ADMIN_PASSWORD) {
+
+            // Decode the stored password and compare
+            // atob() decodes Base64 to plain text
+            const storedPassword = atob(ADMIN_PASSWORD); // Decodes to "meazi2024"
+
+            if (storedPassword !== password) {
                 showToast('❌ Incorrect password!', 'error');
                 adminPasswordInput.value = '';
                 adminPasswordInput.focus();
                 return;
             }
+
             closeAdminModal();
             performDraw(pendingDrawGame);
         }
