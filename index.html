@@ -225,6 +225,7 @@
             color: rgba(255, 255, 255, 0.60);
             min-height: 32px;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         @media (max-width: 500px) {
@@ -800,7 +801,7 @@
 
         /* ===== PARTICIPANTS LIST ===== */
         .participant-list {
-            max-height: 180px;
+            max-height: 250px;
             overflow-y: auto;
             margin-top: 6px;
             border-radius: 10px;
@@ -849,6 +850,54 @@
             background: rgba(96, 165, 250, 0.08);
             padding: 2px 8px;
             border-radius: 10px;
+        }
+
+        /* Remove button - Admin only */
+        .participant-item .p-remove {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.20);
+            color: #f87171;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.60rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            min-height: 28px;
+            display: none;
+            /* Hidden by default */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .participant-item .p-remove:hover {
+            background: rgba(239, 68, 68, 0.30);
+            border-color: rgba(239, 68, 68, 0.40);
+            transform: scale(1.05);
+        }
+
+        .participant-item .p-remove:active {
+            transform: scale(0.95);
+        }
+
+        .participant-item .p-remove.show {
+            display: block;
+        }
+
+        /* Admin mode indicator */
+        .admin-mode-indicator {
+            display: none;
+            text-align: center;
+            font-size: 0.60rem;
+            color: #f87171;
+            padding: 4px;
+            margin-top: 4px;
+            background: rgba(239, 68, 68, 0.06);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.08);
+        }
+
+        .admin-mode-indicator.show {
+            display: block;
         }
 
         .empty-msg {
@@ -1292,6 +1341,11 @@
             .participant-item .p-name {
                 font-size: 0.70rem;
             }
+            .participant-item .p-remove {
+                font-size: 0.55rem;
+                padding: 3px 8px;
+                min-height: 24px;
+            }
             .admin-modal-content {
                 padding: 20px 16px;
             }
@@ -1409,6 +1463,11 @@
 
                 <!-- Admin Controls -->
                 <div style="margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; gap:6px; margin-bottom:4px; flex-wrap:wrap;">
+                        <button class="btn-secondary" onclick="toggleAdminMode()" id="adminModeBtn" style="flex:1; border-color:rgba(239,68,68,0.30); color:#f87171; min-height:36px; font-size:0.70rem;">
+                            🔐 Admin Mode: OFF
+                        </button>
+                    </div>
                     <div class="draw-buttons">
                         <button class="draw-btn draw-100" onclick="openAdminModal(100)" id="drawBtn100">
                             🏆 100 ETB
@@ -1428,9 +1487,18 @@
 
             <!-- RIGHT: Participants List -->
             <div>
-                <div class="section-title">👥 Participants <span id="participantCountLabel" style="font-size:0.75rem; color:rgba(255,255,255,0.30);">0</span></div>
+                <div class="section-title">
+                    👥 Participants
+                    <span id="participantCountLabel" style="font-size:0.75rem; color:rgba(255,255,255,0.30);">0</span>
+                    <span id="adminModeLabel" style="font-size:0.60rem; color:#f87171; display:none;">🔴 Admin Mode</span>
+                </div>
                 <div class="participant-list" id="participantList">
                     <div class="empty-msg">No participants yet</div>
+                </div>
+
+                <!-- Admin Mode Indicator -->
+                <div class="admin-mode-indicator" id="adminModeIndicator">
+                    🔴 Admin Mode Active - Click ❌ to remove unpaid participants
                 </div>
 
                 <!-- Slot Machine Animation -->
@@ -1482,26 +1550,18 @@
 
     <script>
         // ============================================================
-        //  CONFIGURATION - SECURE (Base64 Encoded)
+        //  CONFIGURATION 
         // ============================================================
         const TOTAL_NUMBERS = 80;
         const ADMIN_RATE = 0.20;
         const WINNER1_RATE = 0.60;
         const WINNER2_RATE = 0.20;
         const TELEBIRR_NUMBER = '0945223257';
-
-        // ⚠️ SECURITY: Password is Base64 encoded (not plain text)
-        // Decodes to: "meazi2024"
-        // To change password, encode your new password at: https://www.base64encode.org/
         const ADMIN_PASSWORD = 'bWVhemkyMDI0';
 
         // ============================================================
         //  STATE
         // ============================================================
-        let currentGame = 100;
-        let pendingDrawGame = 100;
-        let isSpinning = false;
-
         let games = {
             100: {
                 participants: [],
@@ -1518,6 +1578,11 @@
                 ticketPrice: 200,
             }
         };
+
+        let currentGame = 100;
+        let pendingDrawGame = 100;
+        let isSpinning = false;
+        let isAdminMode = false;
 
         // ============================================================
         //  DOM REFS
@@ -1554,6 +1619,88 @@
         const dot100 = document.getElementById('dot100');
         const dot200 = document.getElementById('dot200');
         const nameInput = document.getElementById('participantName');
+        const adminModeBtn = document.getElementById('adminModeBtn');
+        const adminModeIndicator = document.getElementById('adminModeIndicator');
+        const adminModeLabel = document.getElementById('adminModeLabel');
+
+        // ============================================================
+        //  ADMIN MODE TOGGLE
+        // ============================================================
+        function toggleAdminMode() {
+            isAdminMode = !isAdminMode;
+
+            if (isAdminMode) {
+                // Enter admin mode
+                const password = prompt('🔐 Enter admin password to enable removal mode:');
+                if (password === null) {
+                    isAdminMode = false;
+                    return;
+                }
+
+                const storedPassword = atob(ADMIN_PASSWORD);
+                if (password !== storedPassword) {
+                    showToast('❌ Incorrect password!', 'error');
+                    isAdminMode = false;
+                    return;
+                }
+
+                adminModeBtn.textContent = '🔐 Admin Mode: ON';
+                adminModeBtn.style.borderColor = '#4ade80';
+                adminModeBtn.style.color = '#4ade80';
+                adminModeIndicator.classList.add('show');
+                adminModeLabel.style.display = 'inline';
+                showToast('✅ Admin mode enabled. You can now remove participants.', 'success');
+
+                // Show remove buttons
+                document.querySelectorAll('.p-remove').forEach(el => {
+                    el.classList.add('show');
+                });
+
+            } else {
+                // Exit admin mode
+                adminModeBtn.textContent = '🔐 Admin Mode: OFF';
+                adminModeBtn.style.borderColor = 'rgba(239,68,68,0.30)';
+                adminModeBtn.style.color = '#f87171';
+                adminModeIndicator.classList.remove('show');
+                adminModeLabel.style.display = 'none';
+                showToast('🔒 Admin mode disabled.', 'info');
+
+                // Hide remove buttons
+                document.querySelectorAll('.p-remove').forEach(el => {
+                    el.classList.remove('show');
+                });
+            }
+        }
+
+        // ============================================================
+        //  REMOVE PARTICIPANT
+        // ============================================================
+        function removeParticipant(index) {
+            if (!isAdminMode) {
+                showToast('🔒 Please enable Admin Mode first.', 'error');
+                return;
+            }
+
+            const gameData = games[currentGame];
+            if (gameData.isDrawn) {
+                showToast('⚠️ This game is already drawn!', 'error');
+                return;
+            }
+
+            const participant = gameData.participants[index];
+            if (!participant) return;
+
+            if (!confirm(`⚠️ Remove "${participant.name}" (${participant.tickets} ticket(s), numbers: ${participant.numbers.join(', ')})?`)) {
+                return;
+            }
+
+            // Remove participant
+            gameData.participants.splice(index, 1);
+
+            showToast(`✅ ${participant.name} has been removed.`, 'success');
+            updateUI();
+            saveToStorage();
+        }
 
         // ============================================================
         //  INIT
@@ -1565,12 +1712,39 @@
             updateTotalPrice();
             updateStatusDots();
             drawStatusText.textContent = '🎰 Ready';
+
+            // SECURITY: Prevent keyboard shortcuts for developer tools
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F12') { e.preventDefault(); return false; }
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i')) { e
+                        .preventDefault();
+                    return false; }
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.key === 'j')) { e
+                        .preventDefault();
+                    return false; }
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u')) { e.preventDefault();
+                    return false; }
+            });
+
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
         }
 
         // ============================================================
         //  GAME SWITCHING
         // ============================================================
         function switchGame(game) {
+            if (typeof game !== 'number' || (game !== 100 && game !== 200)) {
+                showToast('⚠️ Invalid game selection.', 'error');
+                return;
+            }
             currentGame = game;
             document.querySelectorAll('.game-tab').forEach(tab => {
                 tab.classList.toggle('active-game', parseInt(tab.dataset.game) === game);
@@ -1597,6 +1771,13 @@
                 slotLabel2.className = 'slot-label silver-label';
                 drawStatusText.textContent = '🏆 Complete!';
                 drawStatusText.className = 'draw-status-text';
+            }
+
+            // If admin mode is on, reapply remove buttons
+            if (isAdminMode) {
+                document.querySelectorAll('.p-remove').forEach(el => {
+                    el.classList.add('show');
+                });
             }
         }
 
@@ -1758,6 +1939,13 @@
                 return;
             }
 
+            // Validate name (no special characters, prevent injection)
+            if (!/^[\u1200-\u137F\sA-Za-z]+$/.test(name)) {
+                showToast('❌ Please enter a valid name (letters only).', 'error');
+                nameInput.focus();
+                return;
+            }
+
             const selected = gameData.selectedNumbers;
             if (selected.length === 0) {
                 showToast(`❌ Please select ${ticketCount} number(s).`, 'error');
@@ -1784,6 +1972,13 @@
             // Check if name already exists in this game
             const existing = gameData.participants.find(p => p.name.toLowerCase() === name.toLowerCase());
             if (existing) {
+                // Prevent duplicate numbers for same person
+                for (const num of selected) {
+                    if (existing.numbers.includes(num)) {
+                        showToast(`❌ You already have number ${num}!`, 'error');
+                        return;
+                    }
+                }
                 existing.numbers.push(...selected);
                 existing.tickets += ticketCount;
                 showToast(`✅ ${name} added ${ticketCount} more ticket(s)! Total: ${existing.tickets}`, 'success');
@@ -1809,6 +2004,10 @@
         //  ADMIN MODAL
         // ============================================================
         function openAdminModal(game) {
+            if (isSpinning) {
+                showToast('⚠️ Please wait for current draw to finish.', 'error');
+                return;
+            }
             pendingDrawGame = game;
             const gameData = games[game];
             if (gameData.isDrawn) {
@@ -1829,15 +2028,9 @@
             adminModal.classList.remove('show');
         }
 
-        // ============================================================
-        //  VERIFY PASSWORD - SECURE (Base64 Decode)
-        // ============================================================
         function verifyAndDraw() {
             const password = adminPasswordInput.value.trim();
-
-            // Decode the stored password and compare
-            // atob() decodes Base64 to plain text
-            const storedPassword = atob(ADMIN_PASSWORD); // Decodes to "meazi2024"
+            const storedPassword = atob(ADMIN_PASSWORD);
 
             if (storedPassword !== password) {
                 showToast('❌ Incorrect password!', 'error');
@@ -1847,6 +2040,7 @@
             }
 
             closeAdminModal();
+            window._adminAuthenticated = true;
             performDraw(pendingDrawGame);
         }
 
@@ -1854,9 +2048,21 @@
         //  PERFORM DRAW
         // ============================================================
         function performDraw(game) {
-            if (isSpinning) return;
+            if (typeof game !== 'number' || (game !== 100 && game !== 200)) {
+                showToast('⚠️ Invalid draw request.', 'error');
+                return;
+            }
+
+            if (isSpinning) {
+                showToast('⚠️ Draw already in progress.', 'error');
+                return;
+            }
+
             const gameData = games[game];
-            if (gameData.isDrawn) return;
+            if (gameData.isDrawn) {
+                showToast('⚠️ This game is already drawn!', 'error');
+                return;
+            }
 
             const participants = gameData.participants;
             if (participants.length < 2) {
@@ -1864,20 +2070,23 @@
                 return;
             }
 
+            if (!window._adminAuthenticated) {
+                showToast('🔒 Please authenticate as admin first.', 'error');
+                return;
+            }
+            window._adminAuthenticated = false;
+
             isSpinning = true;
             if (game === 100) drawBtn100.disabled = true;
             else drawBtn200.disabled = true;
 
-            // === CORRECT CALCULATION ===
             const totalTickets = participants.reduce((sum, p) => sum + p.tickets, 0);
             const totalPool = totalTickets * game;
 
-            // Apply percentages directly to total pool
             const adminCut = totalPool * ADMIN_RATE;
             const prize1 = totalPool * WINNER1_RATE;
             const prize2 = totalPool * WINNER2_RATE;
 
-            // Weighted random selection
             const weighted = [];
             participants.forEach((p, idx) => {
                 for (let i = 0; i < p.tickets; i++) {
@@ -1912,19 +2121,16 @@
             const num1 = winner1.numbers[Math.floor(Math.random() * winner1.numbers.length)];
             const num2 = winner2.numbers[Math.floor(Math.random() * winner2.numbers.length)];
 
-            // Save winners
             gameData.winners = [
                 { name: winner1.name, number: num1, prize: prize1, place: 1 },
                 { name: winner2.name, number: num2, prize: prize2, place: 2 },
             ];
             gameData.isDrawn = true;
 
-            // === SWITCH TO GAME TAB ===
             if (currentGame !== game) {
                 switchGame(game);
             }
 
-            // === RESET SLOT ===
             slotContainer.className = 'slot-container show';
             slotContainer.classList.add('spinning');
             slotReel1.className = 'slot-reel spinning';
@@ -1939,7 +2145,6 @@
             drawStatusText.textContent = '🌀 DRAWING...';
             drawStatusText.className = 'draw-status-text active';
 
-            // === STEP 1: SPIN REELS (2.5 seconds) ===
             let spinCount = 0;
             const maxSpins = 35 + Math.floor(Math.random() * 10);
 
@@ -1956,7 +2161,6 @@
                 if (spinCount >= maxSpins) {
                     clearInterval(spinInterval);
 
-                    // === STEP 2: REVEAL WINNER 1 (GOLD) ===
                     slotReel1.className = 'slot-reel winner-gold';
                     slotReel1.textContent = num1;
                     slotLabel1.className = 'slot-label gold-label';
@@ -1966,7 +2170,6 @@
 
                     launchConfetti(30);
 
-                    // === STEP 3: REVEAL WINNER 2 (SILVER) after 0.8 seconds ===
                     setTimeout(() => {
                         slotReel2.className = 'slot-reel winner-silver';
                         slotReel2.textContent = num2;
@@ -1989,6 +2192,19 @@
                                 saveToStorage();
                                 updateStatusDots();
                                 isSpinning = false;
+
+                                // Exit admin mode after draw
+                                if (isAdminMode) {
+                                    isAdminMode = false;
+                                    adminModeBtn.textContent = '🔐 Admin Mode: OFF';
+                                    adminModeBtn.style.borderColor = 'rgba(239,68,68,0.30)';
+                                    adminModeBtn.style.color = '#f87171';
+                                    adminModeIndicator.classList.remove('show');
+                                    adminModeLabel.style.display = 'none';
+                                    document.querySelectorAll('.p-remove').forEach(el => {
+                                        el.classList.remove('show');
+                                    });
+                                }
                             }, 400);
                         }, 500);
                     }, 800);
@@ -2091,6 +2307,19 @@
             confettiContainer.innerHTML = '';
             isSpinning = false;
 
+            // Reset admin mode
+            if (isAdminMode) {
+                isAdminMode = false;
+                adminModeBtn.textContent = '🔐 Admin Mode: OFF';
+                adminModeBtn.style.borderColor = 'rgba(239,68,68,0.30)';
+                adminModeBtn.style.color = '#f87171';
+                adminModeIndicator.classList.remove('show');
+                adminModeLabel.style.display = 'none';
+                document.querySelectorAll('.p-remove').forEach(el => {
+                    el.classList.remove('show');
+                });
+            }
+
             showToast(`🔄 ${game} ETB game has been reset.`, 'info');
             updateUI();
             saveToStorage();
@@ -2127,6 +2356,7 @@
                             <span class="p-name">${idx+1}. ${p.name}</span>
                             <span class="p-ticket">${p.tickets} 🎫</span>
                             <span class="p-number">${p.numbers.join(', ')}</span>
+                            <button class="p-remove ${isAdminMode ? 'show' : ''}" onclick="removeParticipant(${idx})">❌</button>
                         </div>
                     `).join('');
             }
@@ -2257,6 +2487,9 @@
         //  START
         // ============================================================
         init();
+
+        console.log('🔒 Meazi Lottery is secure.');
+        console.log('📌 To remove unpaid participants: Click "Admin Mode: OFF" and enter password.');
     </script>
 
 </body>
