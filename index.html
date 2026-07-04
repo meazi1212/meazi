@@ -140,7 +140,6 @@
             position: relative;
         }
 
-        /* Color zones */
         .num-btn.zone-1 {
             background: rgba(239, 68, 68, 0.15);
             border-color: rgba(239, 68, 68, 0.20);
@@ -189,7 +188,6 @@
             transform: scale(1.05);
         }
 
-        /* Selected state */
         .num-btn.selected {
             transform: scale(1.10);
             box-shadow: 0 0 25px rgba(249, 224, 93, 0.30);
@@ -198,7 +196,6 @@
             background: rgba(249, 224, 93, 0.20) !important;
         }
 
-        /* Taken state */
         .num-btn.taken {
             opacity: 0.25;
             cursor: not-allowed;
@@ -207,7 +204,6 @@
             filter: grayscale(0.8);
         }
 
-        /* Winner state */
         .num-btn.winner {
             animation: pulse-gold 1s ease infinite;
             box-shadow: 0 0 40px rgba(74, 222, 128, 0.35);
@@ -422,6 +418,101 @@
             background: rgba(239, 68, 68, 0.25);
         }
 
+        /* ===== ADMIN PASSWORD MODAL ===== */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.80);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-modal.show {
+            display: flex;
+        }
+
+        .admin-modal-content {
+            background: #1a1f33;
+            border: 1px solid rgba(255, 215, 0, 0.20);
+            border-radius: 32px;
+            padding: 40px 35px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.80);
+        }
+
+        .admin-modal-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .admin-modal-content p {
+            color: rgba(255, 255, 255, 0.40);
+            font-size: 0.90rem;
+            margin-bottom: 20px;
+        }
+
+        .admin-modal-content input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            background: rgba(0, 0, 0, 0.30);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            text-align: center;
+            letter-spacing: 4px;
+            margin-bottom: 14px;
+        }
+
+        .admin-modal-content input:focus {
+            border-color: #f9e05d;
+        }
+
+        .admin-modal-content .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .admin-modal-content .btn-group button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s ease;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .admin-modal-content .btn-confirm {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #0b0e1a;
+            box-shadow: 0 4px 0 #15803d;
+        }
+
+        .admin-modal-content .btn-confirm:hover {
+            transform: translateY(-2px);
+        }
+
+        .admin-modal-content .btn-cancel {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .admin-modal-content .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
         /* ===== PARTICIPANTS LIST ===== */
         .participant-list {
             max-height: 300px;
@@ -504,14 +595,135 @@
         }
 
         .winner-display .big {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
             color: #4ade80;
+            text-shadow: 0 0 40px rgba(74, 222, 128, 0.30);
         }
 
         .winner-display .sub {
             color: rgba(255, 255, 255, 0.50);
             font-size: 0.90rem;
+        }
+
+        /* ===== SLOT MACHINE ANIMATION ===== */
+        .slot-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 30px 20px;
+            margin: 10px 0;
+            background: rgba(0, 0, 0, 0.40);
+            border-radius: 24px;
+            border: 2px solid rgba(255, 215, 0, 0.10);
+            min-height: 120px;
+        }
+
+        .slot-container.show {
+            display: flex;
+            animation: slotFadeIn 0.3s ease;
+        }
+
+        @keyframes slotFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.90);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .slot-reel {
+            background: rgba(0, 0, 0, 0.50);
+            border: 2px solid rgba(255, 215, 0, 0.15);
+            border-radius: 16px;
+            padding: 15px 20px;
+            min-width: 70px;
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #f9e05d;
+            transition: all 0.1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slot-reel.spinning {
+            animation: reelSpin 0.08s linear infinite;
+        }
+
+        @keyframes reelSpin {
+            0% {
+                transform: translateY(-10px);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10px);
+                opacity: 0.3;
+            }
+        }
+
+        .slot-reel.winner-reel {
+            border-color: #4ade80;
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.30);
+            color: #4ade80;
+            animation: winnerPulse 0.5s ease 3;
+        }
+
+        @keyframes winnerPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        .slot-label {
+            font-size: 0.70rem;
+            color: rgba(255, 255, 255, 0.30);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ===== CONFETTI ===== */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 999;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         /* ===== TOAST ===== */
@@ -586,6 +798,11 @@
             .status-item .value {
                 font-size: 1.1rem;
             }
+            .slot-reel {
+                font-size: 2rem;
+                min-width: 50px;
+                padding: 12px 14px;
+            }
         }
     </style>
 </head>
@@ -658,7 +875,7 @@
 
                 <div style="display:flex; gap:10px;">
                     <input type="text" id="participantName" placeholder="Your full name" style="flex:2; padding:14px 18px; border-radius:60px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.30); color:#fff; font-size:0.95rem; outline:none;" />
-                    <input type="text" id="phoneNumber" placeholder="Phone" style="flex:1; padding:14px 18px; border-radius:60px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.30); color:#fff; font-size:0.95rem; outline:none;" />
+                    <input type="text" id="phoneNumber" placeholder="Phone (10 digits)" maxlength="10" style="flex:1; padding:14px 18px; border-radius:60px; border:1px solid rgba(255,255,255,0.10); background:rgba(0,0,0,0.30); color:#fff; font-size:0.95rem; outline:none;" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
                 </div>
 
                 <button class="btn-primary" id="joinBtn" onclick="joinLottery()">✅ Join Lottery</button>
@@ -666,10 +883,10 @@
                 <!-- Admin Controls -->
                 <div style="margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.06);">
                     <div style="display:flex; gap:10px;">
-                        <button class="btn-primary" onclick="drawWinner()" id="drawBtn" style="background:linear-gradient(135deg,#4ade80,#22c55e); box-shadow:0 6px 0 #15803d;">🏆 Draw Winner</button>
+                        <button class="btn-primary" onclick="openAdminModal()" id="drawBtn" style="background:linear-gradient(135deg,#4ade80,#22c55e); box-shadow:0 6px 0 #15803d;">🏆 Draw Winner</button>
                         <button class="btn-danger" onclick="resetLottery()">🔄 Reset</button>
                     </div>
-                    <p style="font-size:0.70rem; color:rgba(255,255,255,0.25); margin-top:8px; text-align:center;">⬆ Admin only: Draw anytime (minimum 20 participants)</p>
+                    <p style="font-size:0.70rem; color:rgba(255,255,255,0.25); margin-top:8px; text-align:center;">🔒 Admin only: Password required to draw</p>
                 </div>
             </div>
 
@@ -678,6 +895,19 @@
                 <div class="section-title">👥 Participants (<span id="participantCountLabel">0</span>)</div>
                 <div class="participant-list" id="participantList">
                     <div class="empty-msg">No participants yet</div>
+                </div>
+
+                <!-- Slot Machine Animation -->
+                <div class="slot-container" id="slotContainer">
+                    <div>
+                        <div class="slot-reel" id="slotReel1">?</div>
+                        <div class="slot-label">Number</div>
+                    </div>
+                    <div style="font-size:3rem; color:rgba(255,255,255,0.20);">✦</div>
+                    <div>
+                        <div class="slot-reel" id="slotReel2">?</div>
+                        <div class="slot-label">Winner</div>
+                    </div>
                 </div>
 
                 <!-- Winner Display -->
@@ -691,25 +921,47 @@
         </div>
     </div>
 
+    <!-- ===== ADMIN MODAL ===== -->
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-modal-content">
+            <h2>🔐 Admin Access</h2>
+            <p>Enter the admin password to draw the winner</p>
+            <input type="password" id="adminPassword" placeholder="Enter password" maxlength="20" />
+            <div class="btn-group">
+                <button class="btn-confirm" onclick="verifyAndDraw()">✅ Confirm</button>
+                <button class="btn-cancel" onclick="closeAdminModal()">❌ Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CONFETTI CONTAINER ===== -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
     <!-- ===== TOAST ===== -->
     <div class="toast" id="toast"></div>
 
     <script>
         // ============================================================
-        //  STATE
+        //  CONFIGURATION
         // ============================================================
         const TOTAL_NUMBERS = 80;
         const MIN_PARTICIPANTS_TO_DRAW = 20;
-        const ADMIN_COMMISSION_RATE = 0.20; // 20%
+        const ADMIN_COMMISSION_RATE = 0.20;
         const TELEBIRR_NUMBER = '0945223257';
+        const ADMIN_PASSWORD = 'meazi2024'; // CHANGE THIS!
 
+        // ============================================================
+        //  STATE
+        // ============================================================
         let lottery = {
-            participants: [], // { name, phone, number, amount }
+            participants: [],
             selectedNumber: null,
             selectedAmount: 100,
-            winner: null, // { name, phone, number, amount, prize }
+            winner: null,
             isDrawn: false,
         };
+
+        let isSpinning = false;
 
         // ============================================================
         //  DOM REFS
@@ -728,6 +980,12 @@
         const winnerNameEl = document.getElementById('winnerName');
         const winnerPrizeEl = document.getElementById('winnerPrize');
         const toastEl = document.getElementById('toast');
+        const adminModal = document.getElementById('adminModal');
+        const adminPasswordInput = document.getElementById('adminPassword');
+        const slotContainer = document.getElementById('slotContainer');
+        const slotReel1 = document.getElementById('slotReel1');
+        const slotReel2 = document.getElementById('slotReel2');
+        const confettiContainer = document.getElementById('confettiContainer');
 
         // ============================================================
         //  INIT
@@ -739,20 +997,17 @@
         }
 
         // ============================================================
-        //  NUMBER GRID (COLORFUL)
+        //  NUMBER GRID
         // ============================================================
         function renderGrid() {
             gridEl.innerHTML = '';
             for (let i = 1; i <= TOTAL_NUMBERS; i++) {
                 const btn = document.createElement('button');
                 btn.className = 'num-btn';
-
-                // Assign color zone
                 if (i <= 20) btn.classList.add('zone-1');
                 else if (i <= 40) btn.classList.add('zone-2');
                 else if (i <= 60) btn.classList.add('zone-3');
                 else btn.classList.add('zone-4');
-
                 btn.dataset.number = i;
                 btn.textContent = i;
                 btn.onclick = () => selectNumber(i);
@@ -769,16 +1024,9 @@
             btns.forEach(btn => {
                 const num = parseInt(btn.dataset.number);
                 btn.classList.remove('selected', 'taken', 'winner');
-
-                if (num === lottery.selectedNumber) {
-                    btn.classList.add('selected');
-                }
-                if (takenNumbers.has(num)) {
-                    btn.classList.add('taken');
-                }
-                if (num === winnerNum) {
-                    btn.classList.add('winner');
-                }
+                if (num === lottery.selectedNumber) btn.classList.add('selected');
+                if (takenNumbers.has(num)) btn.classList.add('taken');
+                if (num === winnerNum) btn.classList.add('winner');
             });
         }
 
@@ -790,8 +1038,7 @@
                 showToast('⚠️ Lottery already drawn! Reset to play again.', 'error');
                 return;
             }
-            const taken = lottery.participants.some(p => p.number === num);
-            if (taken) {
+            if (lottery.participants.some(p => p.number === num)) {
                 showToast(`❌ Number ${num} is already taken!`, 'error');
                 return;
             }
@@ -813,10 +1060,9 @@
                 showToast('❌ All 80 numbers are taken!', 'error');
                 return;
             }
-            const rand = available[Math.floor(Math.random() * available.length)];
-            lottery.selectedNumber = rand;
+            lottery.selectedNumber = available[Math.floor(Math.random() * available.length)];
             updateGrid();
-            showToast(`🎲 Random number: ${rand}`, 'info');
+            showToast(`🎲 Random number: ${lottery.selectedNumber}`, 'info');
         }
 
         function clearSelection() {
@@ -850,26 +1096,24 @@
                 showToast('❌ Please enter your phone number.', 'error');
                 return;
             }
+            // === PHONE VALIDATION: exactly 10 digits ===
+            if (!/^\d{10}$/.test(phone)) {
+                showToast('❌ Phone number must be exactly 10 digits (e.g., 0912345678).', 'error');
+                return;
+            }
             if (lottery.selectedNumber === null) {
                 showToast('❌ Please select a number (1-80).', 'error');
                 return;
             }
-
-            // Check if number is taken
-            const taken = lottery.participants.some(p => p.number === lottery.selectedNumber);
-            if (taken) {
+            if (lottery.participants.some(p => p.number === lottery.selectedNumber)) {
                 showToast(`❌ Number ${lottery.selectedNumber} is already taken!`, 'error');
                 return;
             }
-
-            // Check if phone already joined
-            const already = lottery.participants.some(p => p.phone === phone);
-            if (already) {
+            if (lottery.participants.some(p => p.phone === phone)) {
                 showToast('❌ This phone number already joined!', 'error');
                 return;
             }
 
-            // Add participant
             lottery.participants.push({
                 name: name,
                 phone: phone,
@@ -877,7 +1121,6 @@
                 amount: lottery.selectedAmount,
             });
 
-            // Clear selection
             lottery.selectedNumber = null;
             document.getElementById('participantName').value = '';
             document.getElementById('phoneNumber').value = '';
@@ -886,61 +1129,167 @@
             updateUI();
             saveToStorage();
 
-            // Check if we reached minimum for draw
-            if (lottery.participants.length >= MIN_PARTICIPANTS_TO_DRAW) {
-                showToast(`🎯 ${lottery.participants.length} participants! Admin can draw now.`, 'info');
-                drawStatusEl.textContent = `✅ ${lottery.participants.length} Ready!`;
+            const count = lottery.participants.length;
+            if (count >= MIN_PARTICIPANTS_TO_DRAW) {
+                showToast(`🎯 ${count} participants! Admin can draw now.`, 'info');
+                drawStatusEl.textContent = `✅ ${count} Ready!`;
                 drawStatusEl.style.color = '#4ade80';
             } else {
-                drawStatusEl.textContent = `⏳ ${lottery.participants.length}/${MIN_PARTICIPANTS_TO_DRAW}`;
+                drawStatusEl.textContent = `⏳ ${count}/${MIN_PARTICIPANTS_TO_DRAW}`;
                 drawStatusEl.style.color = '#f9e05d';
             }
         }
 
         // ============================================================
-        //  DRAW WINNER
+        //  ADMIN MODAL
         // ============================================================
-        function drawWinner() {
+        function openAdminModal() {
             if (lottery.isDrawn) {
                 showToast('⚠️ Winner already drawn! Reset to play again.', 'error');
                 return;
             }
-
             if (lottery.participants.length < MIN_PARTICIPANTS_TO_DRAW) {
                 showToast(`❌ Need at least ${MIN_PARTICIPANTS_TO_DRAW} participants. Currently: ${lottery.participants.length}`, 'error');
                 return;
             }
+            adminModal.classList.add('show');
+            adminPasswordInput.value = '';
+            adminPasswordInput.focus();
+        }
 
-            // Pick random winner
-            const randomIndex = Math.floor(Math.random() * lottery.participants.length);
-            const winner = lottery.participants[randomIndex];
+        function closeAdminModal() {
+            adminModal.classList.remove('show');
+        }
 
-            // Calculate prize: total pool - admin commission (20%)
-            const totalPool = lottery.participants.reduce((sum, p) => sum + p.amount, 0);
+        function verifyAndDraw() {
+            const password = adminPasswordInput.value.trim();
+            if (password !== ADMIN_PASSWORD) {
+                showToast('❌ Incorrect password!', 'error');
+                adminPasswordInput.value = '';
+                adminPasswordInput.focus();
+                return;
+            }
+            closeAdminModal();
+            performDraw();
+        }
+
+        // ============================================================
+        //  PERFORM DRAW (with animation)
+        // ============================================================
+        function performDraw() {
+            if (isSpinning) return;
+            if (lottery.isDrawn) {
+                showToast('⚠️ Winner already drawn!', 'error');
+                return;
+            }
+
+            const participants = lottery.participants;
+            if (participants.length < MIN_PARTICIPANTS_TO_DRAW) {
+                showToast(`❌ Need at least ${MIN_PARTICIPANTS_TO_DRAW} participants.`, 'error');
+                return;
+            }
+
+            isSpinning = true;
+            drawBtn.disabled = true;
+
+            // Pick the winner using a secure-ish method
+            const winnerIndex = secureRandom(participants.length);
+            const winner = participants[winnerIndex];
+
+            // Calculate prize
+            const totalPool = participants.reduce((sum, p) => sum + p.amount, 0);
             const adminCut = totalPool * ADMIN_COMMISSION_RATE;
             const prize = totalPool - adminCut;
 
-            lottery.winner = {
-                ...winner,
-                prize: prize,
-                totalPool: totalPool,
-                adminCut: adminCut,
-            };
-            lottery.isDrawn = true;
+            // === SLOT MACHINE ANIMATION ===
+            slotContainer.classList.add('show');
+            slotReel1.classList.add('spinning');
+            slotReel2.classList.add('spinning');
 
-            // Show winner
-            winnerDisplay.classList.add('show');
-            winnerNumberEl.textContent = winner.number;
-            winnerNameEl.textContent = `🏅 ${winner.name} (${winner.phone})`;
-            winnerPrizeEl.textContent = `${prize.toFixed(2)} ETB`;
+            let spinCount = 0;
+            const maxSpins = 20 + Math.floor(Math.random() * 10); // 20-30 spins
+            const spinInterval = setInterval(() => {
+                spinCount++;
+                // Random numbers flashing
+                const randomNum = Math.floor(Math.random() * TOTAL_NUMBERS) + 1;
+                slotReel1.textContent = randomNum;
+                slotReel2.textContent = ['🌟', '⭐', '✨', '🎯', '🏆', '💎', '👑', '🎰'][Math.floor(Math.random() * 8)];
 
-            drawStatusEl.textContent = '🏆 Drawn!';
-            drawStatusEl.style.color = '#4ade80';
-            drawBtn.disabled = true;
+                if (spinCount >= maxSpins) {
+                    clearInterval(spinInterval);
+                    // Show final winner
+                    slotReel1.classList.remove('spinning');
+                    slotReel2.classList.remove('spinning');
+                    slotReel1.textContent = winner.number;
+                    slotReel1.classList.add('winner-reel');
+                    slotReel2.textContent = '🏆';
+                    slotReel2.classList.add('winner-reel');
 
-            showToast(`🏆 WINNER: ${winner.name} - Number ${winner.number} - Prize ${prize.toFixed(2)} ETB!`, 'success');
-            updateUI();
-            saveToStorage();
+                    // Save winner
+                    lottery.winner = { ...winner, prize, totalPool, adminCut };
+                    lottery.isDrawn = true;
+
+                    // Show winner display
+                    setTimeout(() => {
+                        winnerDisplay.classList.add('show');
+                        winnerNumberEl.textContent = winner.number;
+                        winnerNameEl.textContent = `🏅 ${winner.name} (${winner.phone})`;
+                        winnerPrizeEl.textContent = `${prize.toFixed(2)} ETB`;
+
+                        drawStatusEl.textContent = '🏆 Drawn!';
+                        drawStatusEl.style.color = '#4ade80';
+                        drawBtn.disabled = true;
+
+                        // Launch confetti
+                        launchConfetti();
+
+                        showToast(`🏆 WINNER: ${winner.name} - Number ${winner.number} - Prize ${prize.toFixed(2)} ETB!`, 'success');
+                        updateUI();
+                        saveToStorage();
+                        isSpinning = false;
+                    }, 300);
+                }
+            }, 80);
+        }
+
+        // ============================================================
+        //  SECURE RANDOM (better than Math.random)
+        // ============================================================
+        function secureRandom(max) {
+            // Use crypto for better randomness
+            if (window.crypto && window.crypto.getRandomValues) {
+                const array = new Uint32Array(1);
+                window.crypto.getRandomValues(array);
+                return array[0] % max;
+            }
+            // Fallback
+            return Math.floor(Math.random() * max);
+        }
+
+        // ============================================================
+        //  CONFETTI
+        // ============================================================
+        function launchConfetti() {
+            const colors = ['#f9e05d', '#4ade80', '#f87171', '#60a5fa', '#a78bfa', '#fb923c', '#f472b6'];
+            const container = confettiContainer;
+            container.innerHTML = '';
+
+            for (let i = 0; i < 100; i++) {
+                const el = document.createElement('div');
+                el.className = 'confetti';
+                el.style.left = Math.random() * 100 + '%';
+                el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                el.style.width = (Math.random() * 8 + 4) + 'px';
+                el.style.height = (Math.random() * 8 + 4) + 'px';
+                el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                el.style.animationDelay = (Math.random() * 1.5) + 's';
+                container.appendChild(el);
+            }
+
+            setTimeout(() => {
+                container.innerHTML = '';
+            }, 4000);
         }
 
         // ============================================================
@@ -958,11 +1307,17 @@
             };
 
             winnerDisplay.classList.remove('show');
+            slotContainer.classList.remove('show');
+            slotReel1.classList.remove('spinning', 'winner-reel');
+            slotReel2.classList.remove('spinning', 'winner-reel');
+            slotReel1.textContent = '?';
+            slotReel2.textContent = '?';
             drawBtn.disabled = false;
             drawStatusEl.textContent = '⏳ Waiting';
             drawStatusEl.style.color = '#f9e05d';
             document.getElementById('participantName').value = '';
             document.getElementById('phoneNumber').value = '';
+            confettiContainer.innerHTML = '';
 
             showToast('🔄 Lottery has been reset.', 'info');
             updateUI();
@@ -983,10 +1338,8 @@
             poolEl.textContent = `${totalPool.toFixed(2)} ETB`;
             commissionEl.textContent = `${adminCut.toFixed(2)} ETB`;
 
-            // Update grid
             updateGrid();
 
-            // Update participant list
             if (count === 0) {
                 listEl.innerHTML = `<div class="empty-msg">No participants yet</div>`;
             } else {
@@ -999,10 +1352,8 @@
                 `).join('');
             }
 
-            // Enable/disable join button
             joinBtn.disabled = lottery.isDrawn;
 
-            // Update draw status
             if (!lottery.isDrawn && count >= MIN_PARTICIPANTS_TO_DRAW) {
                 drawStatusEl.textContent = `✅ ${count} Ready!`;
                 drawStatusEl.style.color = '#4ade80';
@@ -1013,7 +1364,7 @@
         }
 
         // ============================================================
-        //  STORAGE (LocalStorage)
+        //  STORAGE
         // ============================================================
         function saveToStorage() {
             try {
@@ -1040,6 +1391,11 @@
                             drawStatusEl.textContent = '🏆 Drawn!';
                             drawStatusEl.style.color = '#4ade80';
                             drawBtn.disabled = true;
+                            slotContainer.classList.add('show');
+                            slotReel1.textContent = lottery.winner.number;
+                            slotReel1.classList.add('winner-reel');
+                            slotReel2.textContent = '🏆';
+                            slotReel2.classList.add('winner-reel');
                         }
                         updateUI();
                         document.querySelectorAll('.pay-btn').forEach(b => b.classList.remove('active'));
@@ -1077,6 +1433,13 @@
                 showToast(`📋 Copied: ${TELEBIRR_NUMBER}`, 'success');
             });
         }
+
+        // ============================================================
+        //  KEYBOARD SHORTCUT: Enter to confirm admin password
+        // ============================================================
+        adminPasswordInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') verifyAndDraw();
+        });
 
         // ============================================================
         //  START
